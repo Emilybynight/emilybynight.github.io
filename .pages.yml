@@ -19,7 +19,7 @@ content:
         default: English
         options:
           values: [English, Arabic]
-      - { name: cover, label: Background picture (optional), type: image }
+      - { name: cover, label: Picture (shown beside the poem and on its card), type: image }
       - { name: body, label: Poem (press Enter for each new line), type: text }
 
   - name: essays

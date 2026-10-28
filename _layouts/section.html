@@ -25,6 +25,7 @@ layout: default
   <div class="poem-cards">
   {% for d in items %}
     <a class="poem-card rise" style="--i:{{ forloop.index0 }}" href="{{ d.url }}"{% if d.language == 'Arabic' %} dir="rtl" lang="ar"{% else %} dir="ltr"{% endif %}>
+      {% if d.cover and d.cover != "" %}<span class="card-pic"><img src="{{ d.cover }}" alt="" loading="lazy"></span>{% endif %}
       <time>{{ d.date | date: "%B %Y" }}</time>
       <h2>{{ d.title }}</h2>
       <p>{{ d.content | strip_html | truncatewords: 22 }}</p>
