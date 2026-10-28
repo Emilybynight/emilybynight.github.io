@@ -1,0 +1,88 @@
+media:
+  input: assets/images
+  output: /assets/images
+
+content:
+  - name: poems
+    label: Poems (Emily)
+    type: collection
+    path: _poems
+    filename: "{primary}.md"
+    view:
+      fields: [title, date, language]
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: date, label: Date, type: date, required: true }
+      - name: language
+        label: Language
+        type: select
+        default: English
+        options:
+          values: [English, Arabic, French]
+      - { name: body, label: Poem (press Enter for each new line), type: text }
+
+  - name: essays
+    label: Essays
+    type: collection
+    path: _essays
+    filename: "{primary}.md"
+    view:
+      fields: [title, date, topic]
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: date, label: Date, type: date, required: true }
+      - { name: topic, label: Topic (small label), type: string }
+      - { name: excerpt, label: Short summary for the homepage, type: text }
+      - { name: cover, label: Cover image (optional), type: image }
+      - { name: link, label: "Link elsewhere instead (optional, e.g. Substack)", type: string }
+      - { name: body, label: Essay, type: rich-text }
+
+  - name: articles
+    label: Articles
+    type: collection
+    path: _articles
+    filename: "{primary}.md"
+    view:
+      fields: [title, date, topic]
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: date, label: Date, type: date, required: true }
+      - { name: topic, label: Topic (small label), type: string }
+      - { name: excerpt, label: Short summary for the homepage, type: text }
+      - { name: cover, label: Cover image (optional), type: image }
+      - { name: link, label: "Link elsewhere instead (optional, e.g. Substack)", type: string }
+      - { name: body, label: Article, type: rich-text }
+
+  - name: home
+    label: Homepage, titles & photos
+    type: file
+    path: _data/home.yml
+    format: yaml
+    fields:
+      - { name: site_name, label: Site name (top left), type: string }
+      - { name: headline_day, label: Headline line 1, type: string }
+      - { name: headline_night, label: Headline glowing word, type: string }
+      - { name: headline_end, label: Headline ending, type: string }
+      - { name: intro, label: Intro text, type: text }
+      - { name: arabic_line, label: Arabic line under intro, type: string }
+      - { name: hero_image, label: Main picture, type: image }
+      - { name: hero_caption, label: Main picture caption, type: string }
+      - { name: poems_title, label: Poems section title, type: string }
+      - { name: poems_note, label: Poems signature, type: string }
+      - { name: moments_title, label: Photos section title, type: string }
+      - { name: moments_note, label: Photos section note, type: string }
+      - name: moments
+        label: Candid photos
+        type: object
+        list: true
+        fields:
+          - { name: image, label: Photo, type: image }
+          - { name: caption, label: Caption, type: string }
+      - { name: essays_title, label: Essays section title, type: string }
+      - { name: essays_note, label: Essays section note, type: string }
+      - { name: articles_title, label: Articles section title, type: string }
+      - { name: articles_note, label: Articles section note, type: string }
+      - { name: about_quote, label: About quote, type: string }
+      - { name: about_text, label: About text, type: text }
+      - { name: substack_url, label: Substack link, type: string }
+      - { name: footer, label: Footer text, type: string }
