@@ -1,12 +1,25 @@
 ---
 layout: default
 ---
+{% assign h = site.data.home %}
 {% assign isAr = false %}{% if page.language == "Arabic" %}{% assign isAr = true %}{% endif %}
+{% assign ikey = page.collection | append: "_image" %}
+{% assign bg = page.cover | default: h[ikey] | default: "/assets/images/lily.jpg" %}
+{% assign docs = site[page.collection] | sort: "date" | reverse %}
+{% assign i = 0 %}{% for d in docs %}{% if d.url == page.url %}{% assign i = forloop.index0 %}{% endif %}{% endfor %}
+{% assign ni = i | plus: 1 %}{% assign pi = i | minus: 1 %}
+{% assign older = docs[ni] %}{% if i > 0 %}{% assign newer = docs[pi] %}{% endif %}
+<div class="piece-glow tint-{{ page.collection }}{% if page.cover or h[ikey] %} own{% endif %}" aria-hidden="true"><img src="{{ bg }}" alt=""></div>
 <article class="wrap"><div class="piece{% if page.kind == 'poem' %} is-poem{% endif %}"{% if isAr %} lang="ar"{% endif %}>
   <span class="kicker">{{ page.kind }}{% if page.topic %} · {{ page.topic }}{% endif %} · {{ page.date | date: "%B %Y" }}</span>
   <h1>{{ page.title }}</h1>
   {% if page.kind == 'poem' %}<span class="by">Emily</span>{% else %}<span class="by hiba">by Hiba BenK</span>{% endif %}
-  {% if page.cover %}<img class="cover" src="{{ page.cover }}" alt="">{% endif %}
-  <div class="text">{{ content }}</div>
-  <a class="back" href="/#{{ page.kind }}s">← All {{ page.kind }}s</a>
+  {% if page.cover and page.kind != 'poem' %}<img class="cover" src="{{ page.cover }}" alt="">{% endif %}
+  <div class="text lines">{{ content }}</div>
+  <span class="fleuron" aria-hidden="true">❦</span>
+  <nav class="pager" aria-label="More {{ page.collection }}">
+    {% if newer %}<a href="{{ newer.url }}"><small>Newer</small>{{ newer.title }}</a>{% else %}<span></span>{% endif %}
+    {% if older %}<a class="older" href="{{ older.url }}"><small>Older</small>{{ older.title }}</a>{% endif %}
+  </nav>
+  <a class="back" href="/{{ page.collection }}/">← All {{ page.collection }}</a>
 </div></article>

@@ -102,24 +102,116 @@ footer{padding-block:48px;border-top:1px solid var(--line);font-family:var(--mon
   .entry{grid-template-columns:1fr;gap:6px}
 }
 
-/* ---- added for the editable version ---- */
-.poem .verse{font-size:1.12rem;line-height:1.85;margin-top:22px}
-.poem .verse p,.piece.is-poem .text p{white-space:pre-line;margin:0 0 .35em}
-.poem.ar-poem .verse{font-family:var(--arabic);font-size:1.3rem;line-height:2.1}
-.poem h3 a{text-decoration:none}
-.ph{background-size:cover;background-position:center;position:relative;overflow:hidden}
-.ph.has-img::before{content:"";position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(15,11,16,.85))}
-.ph > *{position:relative}
+/* ================= pages, transitions, art ================= */
+
+/* cross-page dissolve (Chrome, Edge, Safari 18+) */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:fade-out .45s ease both}
+::view-transition-new(root){animation:fade-in .7s ease both}
+::view-transition-group(*){animation-duration:.75s;animation-timing-function:cubic-bezier(.6,0,.2,1)}
+@keyframes fade-out{to{opacity:0;filter:blur(6px)}}
+@keyframes fade-in{from{opacity:0;filter:blur(8px);transform:translateY(10px)}}
+.sig{view-transition-name:sig}
+
+/* drifting petals canvas */
+#petals{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+nav,main,footer{position:relative;z-index:1}
+nav{z-index:20}
+nav ul a[aria-current]{color:var(--petal)}
+
+/* staggered reveal */
+.reveal{animation:rise .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0) * 110ms)}
+@keyframes rise{from{opacity:0;transform:translateY(14px);filter:blur(4px)}}
+
+.kicker,.count{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dusk)}
+.hand{font-family:var(--hand);font-size:1.9rem;color:var(--petal);margin:0;line-height:1.2;text-shadow:0 0 24px rgba(233,166,196,.35)}
+.note{color:var(--dusk);font-style:italic;margin:0}
+.more{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sky)}
+
+/* arches: the shared window shape */
+.arch{position:relative;max-width:100%;aspect-ratio:3/4;border-radius:999px 999px 6px 6px;overflow:hidden;box-shadow:0 0 80px rgba(233,166,196,.14)}
+.arch img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.2,1),filter .8s}
+.arch::after{content:"";position:absolute;inset:0;border-radius:inherit;border:1px solid rgba(248,227,236,.18);pointer-events:none}
+/* default lily, tinted differently per room (removed when you upload your own image) */
+.tint-poems:not(.own) img{object-position:50% 30%}
+.tint-essays:not(.own) img{filter:hue-rotate(-28deg) saturate(.75) brightness(.9);object-position:20% 85%;transform:scale(1.25)}
+.tint-articles:not(.own) img{filter:hue-rotate(150deg) saturate(.6) brightness(.95);object-position:80% 60%;transform:scale(1.4)}
+
+/* homepage doors */
+.doors-wrap{padding-block:24px 72px}
+.doors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px}
+.door{text-decoration:none;display:flex;flex-direction:column;gap:8px}
+.door .arch{margin-bottom:12px}
+.door h2{font-family:var(--display);font-weight:400;font-size:clamp(2rem,4vw,2.8rem);margin:0;line-height:1;transition:color .3s}
+.door:hover h2{color:var(--petal)}
+.door:hover .arch img{transform:scale(1.07)}
+.door:hover .tint-essays:not(.own) img{transform:scale(1.33)}
+.door:hover .tint-articles:not(.own) img{transform:scale(1.48)}
+.door:nth-child(2){margin-top:48px}
+
+/* latest poem */
+.latest{padding-block:64px}
+.latest .wrap{display:grid;gap:18px;justify-items:center;text-align:center}
+.latest-poem{text-decoration:none;max-width:44ch;display:grid;gap:14px;justify-items:center}
+.latest-poem h2{font-family:var(--display);font-style:italic;font-weight:400;font-size:clamp(2.2rem,5vw,3.4rem);margin:0;color:var(--petal);text-shadow:0 0 40px rgba(233,166,196,.35)}
+.latest-poem p{margin:0;font-size:1.15rem;color:var(--glow)}
+
+/* section pages */
+.section-hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:48px;align-items:end;padding-block:32px 56px}
+.section-hero h1{font-family:var(--display);font-weight:400;font-size:clamp(3.6rem,11vw,8rem);line-height:.9;margin:10px 0 6px}
+.listing{border-top:none;padding-top:8px}
+.poem-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:22px}
+.poem-card{text-decoration:none;display:flex;flex-direction:column;gap:10px;padding:28px;border:1px solid var(--line);border-radius:4px;
+  background:radial-gradient(circle at 15% 0%,rgba(233,166,196,.10),transparent 60%),rgba(255,255,255,.015);transition:border-color .4s,transform .4s,box-shadow .4s}
+.poem-card:hover{border-color:rgba(233,166,196,.6);transform:translateY(-4px);box-shadow:0 18px 50px -20px rgba(233,166,196,.35)}
+.poem-card time{font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dusk)}
+.poem-card h2{font-family:var(--display);font-style:italic;font-weight:400;font-size:1.9rem;margin:0;color:var(--petal);line-height:1.1}
+.poem-card p{margin:0;color:var(--glow);opacity:.85;flex:1}
+.poem-card[lang="ar"] h2,.poem-card[lang="ar"] p,.latest-poem[lang="ar"] *{font-family:var(--arabic);font-style:normal}
+
+/* candid photos */
+.ph{position:relative;overflow:hidden;margin:0}
+.ph.has-img{padding:0;border:none}
+.ph.has-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.9) contrast(1.05);transition:transform 1.2s}
+.ph.has-img:hover img{transform:scale(1.05)}
+.ph.has-img figcaption{position:absolute;inset:auto 0 0;padding:16px;background:linear-gradient(transparent,rgba(15,11,16,.85))}
+
+/* single piece page */
+.piece-glow{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.piece-glow img{position:absolute;right:-10%;top:-5%;width:70%;max-width:none;height:110%;object-fit:cover;opacity:.16;filter:blur(2px);
+  mask-image:radial-gradient(ellipse at 70% 40%,#000 20%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 70% 40%,#000 20%,transparent 70%)}
+.piece-glow.tint-essays:not(.own) img{filter:blur(2px) hue-rotate(-28deg) saturate(.75)}
+.piece-glow.tint-articles:not(.own) img{filter:blur(2px) hue-rotate(150deg) saturate(.6)}
 .piece{max-width:680px;margin:0 auto;padding-block:48px 96px}
-.piece .kicker{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dusk)}
 .piece h1{font-family:var(--display);font-weight:400;font-size:clamp(2.6rem,7vw,4.4rem);line-height:1;margin:14px 0 10px;text-wrap:balance}
-.piece .by{font-family:var(--hand);font-size:2rem;color:var(--petal)}
-.piece .by.hiba{font-family:var(--display);font-style:italic;font-size:1.2rem;color:var(--dusk)}
+.piece .by{font-family:var(--hand);font-size:2.2rem;color:var(--petal);text-shadow:0 0 24px rgba(233,166,196,.4)}
+.piece .by.hiba{font-family:var(--display);font-style:italic;font-size:1.2rem;color:var(--dusk);text-shadow:none}
+.piece .cover{display:block;border-radius:4px;margin-top:32px}
 .piece .text{margin-top:40px}
 .piece .text img{border-radius:4px;margin:1em 0}
-.piece.is-poem .text{font-size:1.2rem;line-height:1.9}
+.piece.is-poem .text{font-size:1.25rem;line-height:1.9}
+.poem .verse p,.piece.is-poem .text p{white-space:pre-line;margin:0 0 .35em}
+.lines > *{animation:rise 1s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(.3s + var(--i,0) * 140ms)}
 .piece[lang="ar"]{direction:rtl;text-align:right}
 .piece[lang="ar"] .text,.piece[lang="ar"] h1{font-family:var(--arabic)}
-.back{display:inline-block;margin-top:56px;font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dusk);text-decoration:none}
+.fleuron{display:block;text-align:center;color:var(--petal);font-size:1.6rem;margin:56px 0 0;opacity:.7}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px;border-top:1px solid var(--line);padding-top:24px}
+.pager a{text-decoration:none;font-family:var(--display);font-style:italic;font-size:1.3rem;display:grid;gap:4px;transition:color .3s}
+.pager a:hover{color:var(--petal)}
+.pager small{font-family:var(--mono);font-style:normal;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dusk)}
+.pager .older{text-align:right;grid-column:2}
+.back{display:inline-block;margin-top:40px;font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dusk);text-decoration:none}
 .back:hover{color:var(--petal)}
 .empty{color:var(--dusk);font-style:italic}
+
+@media (max-width:760px){
+  .doors{grid-template-columns:1fr;gap:48px}
+  .door:nth-child(2){margin-top:0}
+  .door .arch{max-width:320px}
+  .section-hero .wrap{grid-template-columns:1fr}
+  .section-hero .arch{max-width:220px;order:-1}
+}
+@media (prefers-reduced-motion:reduce){
+  .reveal,.lines > *{animation:none}
+  ::view-transition-group(*),::view-transition-old(root),::view-transition-new(root){animation:none}
+}

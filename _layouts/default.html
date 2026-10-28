@@ -4,18 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 {% assign h = site.data.home %}
-<title>{% if page.title and page.layout == 'piece' %}{{ page.title }} · {% endif %}{{ h.site_name }}</title>
+<title>{% if page.layout == 'piece' or page.layout == 'section' %}{{ page.title }} · {% endif %}{{ h.site_name | default: "Emily by Night" }}</title>
 <meta name="description" content="{{ h.intro }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Amiri:ital@0;1&family=Mrs+Saint+Delafield&family=Space+Mono&display=swap">
 <link rel="stylesheet" href="/assets/style.css">
 </head>
+{% assign here = page.section | default: page.collection %}
 <body>
+<canvas id="petals" aria-hidden="true"></canvas>
 <nav><div class="wrap">
-  <a class="sig" href="/">{{ h.site_name }}</a>
-  <ul><li><a href="/#poems">{{ h.poems_title }}</a></li><li><a href="/#essays">{{ h.essays_title }}</a></li><li><a href="/#articles">{{ h.articles_title }}</a></li><li><a href="/#about">About</a></li></ul>
+  <a class="sig" href="/">{{ h.site_name | default: "Emily by Night" }}</a>
+  <ul>
+    <li><a href="/poems/"{% if here == 'poems' %} aria-current="page"{% endif %}>{{ h.poems_title | default: "Poems" }}</a></li>
+    <li><a href="/essays/"{% if here == 'essays' %} aria-current="page"{% endif %}>{{ h.essays_title | default: "Essays" }}</a></li>
+    <li><a href="/articles/"{% if here == 'articles' %} aria-current="page"{% endif %}>{{ h.articles_title | default: "Articles" }}</a></li>
+    <li><a href="/#about">About</a></li>
+  </ul>
 </div></nav>
+<main class="page">
 {{ content }}
+</main>
 <footer><div class="wrap">{{ h.footer }}</div></footer>
+<script src="/assets/site.js" defer></script>
 </body>
 </html>

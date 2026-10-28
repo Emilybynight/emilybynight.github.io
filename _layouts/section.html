@@ -1,0 +1,39 @@
+---
+layout: default
+---
+{% assign h = site.data.home %}
+{% assign key = page.section %}
+{% assign tkey = key | append: "_title" %}{% assign nkey = key | append: "_note" %}{% assign ikey = key | append: "_image" %}
+{% assign img = h[ikey] %}
+{% assign items = site[key] | sort: "date" | reverse %}
+<header class="section-hero"><div class="wrap">
+  <div>
+    <span class="kicker">{{ items.size }} {% if items.size == 1 %}piece{% else %}pieces{% endif %}</span>
+    <h1>{{ h[tkey] | default: page.title }}</h1>
+    <p class="{% if key == 'poems' %}hand{% else %}note{% endif %}">{{ h[nkey] }}</p>
+  </div>
+  <div class="arch tint-{{ key }}{% if img %} own{% endif %}" style="view-transition-name: door-{{ key }}">
+    <img src="{{ img | default: '/assets/images/lily.jpg' }}" alt="">
+  </div>
+</div></header>
+
+<section class="listing"><div class="wrap">
+{% if key == 'poems' %}
+  <div class="poem-cards">
+  {% for d in items %}
+    <a class="poem-card reveal" style="--i:{{ forloop.index0 }}" href="{{ d.url }}"{% if d.language == 'Arabic' %} dir="rtl" lang="ar"{% endif %}>
+      <time>{{ d.date | date: "%B %Y" }}</time>
+      <h2>{{ d.title }}</h2>
+      <p>{{ d.content | strip_html | truncatewords: 22 }}</p>
+      <span class="more">Read the poem →</span>
+    </a>
+  {% else %}<p class="empty">The first poem is on its way.</p>{% endfor %}
+  </div>
+{% else %}
+  <div class="entries">
+  {% for e in items %}
+    <a class="entry reveal" style="--i:{{ forloop.index0 }}" href="{% if e.link %}{{ e.link }}{% else %}{{ e.url }}{% endif %}"{% if e.link %} target="_blank" rel="noopener"{% endif %}><time>{{ e.date | date: "%b %Y" }}</time><div><h3>{{ e.title }}</h3>{% if e.excerpt %}<p>{{ e.excerpt }}</p>{% endif %}</div><span class="tag">{{ e.topic }}</span></a>
+  {% else %}<p class="empty">Coming soon.</p>{% endfor %}
+  </div>
+{% endif %}
+</div></section>

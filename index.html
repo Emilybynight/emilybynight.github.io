@@ -4,35 +4,51 @@ layout: default
 {% assign h = site.data.home %}
 <header class="hero" id="top"><div class="wrap">
   <div>
-    <h1>{{ h.headline_day }}<br><em>{{ h.headline_night }}</em> {{ h.headline_end }}</h1>
-    <p>{{ h.intro }}</p>
-    {% if h.arabic_line %}<span class="ar">{{ h.arabic_line }}</span>{% endif %}
+    <h1 class="reveal">{{ h.headline_day }}<br><em>{{ h.headline_night }}</em> {{ h.headline_end }}</h1>
+    <p class="reveal" style="--i:2">{{ h.intro }}</p>
+    {% if h.arabic_line %}<span class="ar reveal" style="--i:3">{{ h.arabic_line }}</span>{% endif %}
   </div>
   <figure class="bloom" style="margin:0">
-    <img alt="" src="{{ h.hero_image }}">
+    <img alt="" src="{{ h.hero_image | default: '/assets/images/lily.jpg' }}">
     {% if h.hero_caption %}<figcaption>{{ h.hero_caption }}</figcaption>{% endif %}
   </figure>
 </div></header>
 
-<section id="poems"><div class="wrap">
-  <div class="head"><h2>{{ h.poems_title }} <span class="byline">{{ h.poems_note }}</span></h2></div>
-  <div class="poems">
-  {% assign poems = site.poems | sort: "date" | reverse %}
-  {% for p in poems %}
-    <article class="poem{% if p.language == 'Arabic' %} ar-poem{% endif %}"{% if p.language == 'Arabic' %} lang="ar"{% endif %}>
-      <h3><a href="{{ p.url }}">{{ p.title }}</a></h3>
-      <time>{{ p.date | date: "%B %Y" }}</time>
-      <div class="verse">{{ p.content }}</div>
-    </article>
-  {% else %}<p class="empty">The first poem is on its way.</p>{% endfor %}
+<section class="doors-wrap"><div class="wrap">
+  <div class="doors">
+  {% assign keys = "poems,essays,articles" | split: "," %}
+  {% for key in keys %}
+    {% assign tkey = key | append: "_title" %}{% assign nkey = key | append: "_note" %}{% assign ikey = key | append: "_image" %}
+    {% assign img = h[ikey] %}
+    <a class="door reveal" style="--i:{{ forloop.index }}" href="/{{ key }}/">
+      <div class="arch tint-{{ key }}{% if img %} own{% endif %}" style="view-transition-name: door-{{ key }}">
+        <img src="{{ img | default: '/assets/images/lily.jpg' }}" alt="">
+      </div>
+      <span class="count">{{ site[key].size }} {% if site[key].size == 1 %}piece{% else %}pieces{% endif %}</span>
+      <h2>{{ h[tkey] | default: key }}</h2>
+      <p class="{% if key == 'poems' %}hand{% else %}note{% endif %}">{{ h[nkey] }}</p>
+    </a>
+  {% endfor %}
   </div>
 </div></section>
 
+{% assign latest = site.poems | sort: "date" | reverse | first %}
+{% if latest %}
+<section class="latest"><div class="wrap">
+  <span class="kicker">Latest from Emily</span>
+  <a class="latest-poem" href="{{ latest.url }}"{% if latest.language == 'Arabic' %} dir="rtl" lang="ar"{% endif %}>
+    <h2>{{ latest.title }}</h2>
+    <p>{{ latest.content | strip_html | truncatewords: 30 }}</p>
+    <span class="more">Read the whole poem →</span>
+  </a>
+</div></section>
+{% endif %}
+
 <section aria-label="{{ h.moments_title }}"><div class="wrap">
-  <div class="head"><h2>{{ h.moments_title }}</h2><span>{{ h.moments_note }}</span></div>
+  <div class="head"><h2>{{ h.moments_title | default: "Moments" }}</h2><span>{{ h.moments_note }}</span></div>
   <div class="candid">
   {% if h.moments and h.moments.size > 0 %}
-    {% for m in h.moments %}<div class="ph has-img" style="background-image:url('{{ m.image }}')"><b>{{ m.caption }}</b></div>{% endfor %}
+    {% for m in h.moments %}<figure class="ph has-img"><img src="{{ m.image }}" alt="{{ m.caption }}" loading="lazy"><figcaption><b>{{ m.caption }}</b></figcaption></figure>{% endfor %}
   {% else %}
     <div class="ph"><b>Sea, morning</b><small>Add photos in the dashboard</small></div>
     <div class="ph"><b>Coffee, balcony</b><small>Add photos in the dashboard</small></div>
@@ -41,24 +57,10 @@ layout: default
   </div>
 </div></section>
 
-{% assign groups = "essays,articles" | split: "," %}
-{% for g in groups %}
-{% if g == "essays" %}{% assign items = site.essays %}{% assign t = h.essays_title %}{% assign n = h.essays_note %}{% else %}{% assign items = site.articles %}{% assign t = h.articles_title %}{% assign n = h.articles_note %}{% endif %}
-<section id="{{ g }}"><div class="wrap">
-  <div class="head"><h2>{{ t }}</h2><span>{{ n }}</span></div>
-  <div class="entries">
-  {% assign sorted = items | sort: "date" | reverse %}
-  {% for e in sorted %}
-    <a class="entry" href="{% if e.link %}{{ e.link }}{% else %}{{ e.url }}{% endif %}"{% if e.link %} target="_blank" rel="noopener"{% endif %}><time>{{ e.date | date: "%b %Y" }}</time><div><h3>{{ e.title }}</h3>{% if e.excerpt %}<p>{{ e.excerpt }}</p>{% endif %}</div><span class="tag">{{ e.topic }}</span></a>
-  {% else %}<p class="empty">Coming soon.</p>{% endfor %}
-  </div>
-</div></section>
-{% endfor %}
-
 <section class="about" id="about"><div class="wrap">
   <blockquote>“{{ h.about_quote }}”</blockquote>
   <div>
     {{ h.about_text | markdownify }}
-    <div class="links"><a href="{{ h.substack_url }}" target="_blank" rel="noopener">Newsletter on Substack</a><a href="#poems">Start reading</a></div>
+    <div class="links"><a href="{{ h.substack_url }}" target="_blank" rel="noopener">Newsletter on Substack</a><a href="/poems/">Start reading</a></div>
   </div>
 </div></section>
