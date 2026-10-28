@@ -1,5 +1,5 @@
 ---
-title: How many
+title: How Much Strength Did It Take You to Be Soft?
 date: 2026-10-28
 language: English
 cover: /assets/images/emily-poem-poster-a.jpg
