@@ -8,15 +8,13 @@ layout: default
 {% assign ni = i | plus: 1 %}{% assign pi = i | minus: 1 %}
 {% assign older = docs[ni] %}{% if i > 0 %}{% assign newer = docs[pi] %}{% endif %}
 {% assign hasPic = false %}{% if page.kind == 'poem' and page.cover and page.cover != "" %}{% assign hasPic = true %}{% endif %}
-{% if page.kind == 'poem' and hasPic == false %}{% assign ikey = "poems_image" %}{% assign bg = h[ikey] | default: "/assets/images/lily.jpg" %}
-<div class="piece-glow" aria-hidden="true"><img src="{{ bg }}" alt=""></div>{% endif %}
-<article class="wrap{% if hasPic %} poem-split{% endif %}">{% if hasPic %}<figure class="poem-pic rise"><img src="{{ page.cover }}" alt=""></figure>{% endif %}<div class="piece is-{{ page.kind }}"{% if isAr %} lang="ar" dir="rtl"{% else %} lang="en" dir="ltr"{% endif %}>
+<article class="wrap{% if hasPic %} poem-split{% endif %}">{% if hasPic %}<figure class="poem-pic"><img src="{{ page.cover }}" alt=""></figure>{% endif %}<div class="piece is-{{ page.kind }}"{% if isAr %} lang="ar" dir="rtl"{% else %} lang="en" dir="ltr"{% endif %}>
   <span class="kicker">{{ page.date | date: "%-d %B %Y" }}{% if page.topic and page.topic != "" %} · {{ page.topic }}{% endif %}</span>
   <h1 class="title-motion">{{ page.title }}</h1>
   {% if page.kind == 'poem' %}<span class="by emily">Emily</span>{% else %}<span class="by hiba">Hiba BenK</span>{% endif %}
   {% if page.cover and page.cover != "" and page.kind != 'poem' %}<img class="cover" src="{{ page.cover }}" alt="">{% endif %}
   <div class="text lines">{{ content }}</div>
-  <span class="fleuron" aria-hidden="true">❦</span>
+  {% if page.kind == "poem" %}<span class="seal" aria-hidden="true">E</span>{% else %}<span class="fleuron" aria-hidden="true">❦</span>{% endif %}
   <nav class="pager" dir="auto">
     {% if newer %}<a href="{{ newer.url }}"><small>{% include t.html en="Newer" ar="الأحدث" %}</small>{{ newer.title }}</a>{% else %}<span></span>{% endif %}
     {% if older %}<a class="older" href="{{ older.url }}"><small>{% include t.html en="Older" ar="الأقدم" %}</small>{{ older.title }}</a>{% endif %}

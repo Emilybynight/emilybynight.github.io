@@ -38,7 +38,7 @@
   // what lives in each room
   var rooms = {
     home:     { butterflies: 3, wings: ['236,140,196', '250,196,224'], dust: 34, dustCol: ['245,205,160', '248,227,236'] },
-    poems:    { petals: 40 },
+    poems:    { pages: 9, petals: 8, petalCols: ['125,29,34', '150,45,48', '168,116,42'], dust: 26, dustCol: ['150,104,52', '120,80,40'] },
     essays:   { dust: 46, dustCol: ['150,104,52', '120,80,40', '190,150,90'], rise: true, ink: true },
     articles: { sparkle: 60 },
     journal:  { butterflies: 2, wings: ['214,140,50', '240,186,100'], dust: 22, dustCol: ['214,150,60', '196,104,122'] },
@@ -107,7 +107,8 @@
     this.x = rnd(0, W); this.y = any ? rnd(0, H) : -20;
     this.r = this.petal ? rnd(4, 10) : rnd(0.8, 2.6);
     this.vy = rnd(0.12, 0.45); this.sway = rnd(0, 6); this.rot = rnd(0, 3); this.spin = rnd(-0.01, 0.01);
-    this.al = rnd(0.15, 0.55); this.col = pick(['233,166,196', '248,227,236', '143,182,216', '245,214,160']);
+    this.al = rnd(0.15, 0.55); this.col = pick(cfg.petalCols || ['233,166,196', '248,227,236', '143,182,216', '245,214,160']);
+    if (cfg.petalCols) { this.petal = true; this.al = rnd(0.35, 0.7); }
   }
   Petal.prototype.step = function () {
     this.sway += 0.008; this.rot += this.spin; this.y += this.vy; this.x += Math.sin(this.sway) * 0.3;
@@ -123,6 +124,36 @@
     } else {
       ctx.fillStyle = 'rgba(' + this.col + ',' + (this.al + 0.2) + ')'; ctx.shadowColor = 'rgba(' + this.col + ',.9)'; ctx.shadowBlur = 8;
       ctx.beginPath(); ctx.arc(0, 0, this.r, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.restore();
+  };
+
+
+  /* old pages drifting down, turning over as they fall */
+  function Page(any) {
+    this.w = rnd(16, 30); this.h = this.w * rnd(1.25, 1.45);
+    this.x = rnd(0, W); this.y = any ? rnd(-H * 0.2, H) : -60;
+    this.vy = rnd(0.25, 0.6); this.sway = rnd(0, 6); this.rot = rnd(-0.6, 0.6); this.spin = rnd(-0.006, 0.006);
+    this.flip = rnd(0, 6); this.fs = rnd(0.012, 0.03); this.al = rnd(0.55, 0.85);
+  }
+  Page.prototype.step = function () {
+    this.sway += 0.01; this.flip += this.fs; this.rot += this.spin + Math.sin(this.sway) * 0.002;
+    this.y += this.vy * (0.7 + 0.3 * Math.abs(Math.cos(this.flip))); this.x += Math.sin(this.sway) * 0.55;
+    if (this.y > H + 60) Page.call(this, false);
+  };
+  Page.prototype.draw = function () {
+    var k = Math.cos(this.flip), front = k > 0, w = this.w, h = this.h;
+    ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.rot); ctx.scale(Math.max(Math.abs(k), 0.04), 1);
+    ctx.globalAlpha = this.al;
+    ctx.shadowColor = 'rgba(70,40,15,.25)'; ctx.shadowBlur = 6; ctx.shadowOffsetY = 3;
+    ctx.fillStyle = front ? '#f6e9c9' : '#e2c995';
+    ctx.fillRect(-w / 2, -h / 2, w, h);
+    ctx.shadowColor = 'transparent';
+    ctx.strokeStyle = 'rgba(140,85,30,.35)'; ctx.lineWidth = 0.6; ctx.strokeRect(-w / 2, -h / 2, w, h);
+    if (front) { // faint lines of ink
+      ctx.strokeStyle = 'rgba(43,28,18,.35)'; ctx.lineWidth = 0.7; ctx.beginPath();
+      for (var yy = -h / 2 + h * 0.2; yy < h / 2 - h * 0.12; yy += h * 0.11) { ctx.moveTo(-w / 2 + w * 0.15, yy); ctx.lineTo(w / 2 - w * (0.15 + ((yy * 7) % 3) * 0.08), yy); }
+      ctx.stroke();
     }
     ctx.restore();
   };
@@ -179,6 +210,7 @@
     var n = function (k) { return Math.max(4, Math.round(k * Math.min(area, 1.2))); };
     if (cfg.ink) for (i = 0; i < 4; i++) things.push(new Ink());
     if (cfg.dust) for (i = 0; i < n(cfg.dust); i++) things.push(new Dust(true));
+    if (cfg.pages) for (i = 0; i < Math.max(5, Math.round(cfg.pages * Math.min(area, 1.2))); i++) things.push(new Page(true));
     if (cfg.petals) for (i = 0; i < n(cfg.petals); i++) things.push(new Petal(true));
     if (cfg.sparkle) for (i = 0; i < n(cfg.sparkle); i++) things.push(new Glint());
     if (cfg.butterflies) for (i = 0; i < cfg.butterflies; i++) things.push(new Butterfly());

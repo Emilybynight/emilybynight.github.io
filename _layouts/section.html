@@ -22,14 +22,17 @@ layout: default
 <section class="listing"><div class="wrap">
 {% case key %}
 {% when "poems" %}
-  <div class="poem-cards">
+  <div class="envelopes">
   {% for d in items %}
-    <a class="poem-card rise" style="--i:{{ forloop.index0 }}" href="{{ d.url }}"{% if d.language == 'Arabic' %} dir="rtl" lang="ar"{% else %} dir="ltr"{% endif %}>
-      {% if d.cover and d.cover != "" %}<span class="card-pic"><img src="{{ d.cover }}" alt="" loading="lazy"></span>{% endif %}
-      <time>{{ d.date | date: "%B %Y" }}</time>
-      <h2>{{ d.title }}</h2>
-      <p>{{ d.content | strip_html | truncatewords: 22 }}</p>
-      <span class="more">{% include t.html en="Read the poem →" ar="← اقرأ القصيدة" %}</span>
+    <a class="envelope rise" style="--i:{{ forloop.index0 }}" href="{{ d.url }}"{% if d.language == 'Arabic' %} dir="rtl" lang="ar"{% else %} dir="ltr"{% endif %}>
+      <span class="letter-in">
+        <time>{{ d.date | date: "%-d %B %Y" }}</time>
+        <span class="t">{{ d.title }}</span>
+        {% if d.cover and d.cover != "" %}<span class="thumb"><img src="{{ d.cover }}" alt="" loading="lazy"></span>{% else %}<span class="first">{{ d.content | strip_html | truncatewords: 14 }}</span>{% endif %}
+      </span>
+      <span class="env-back" aria-hidden="true"></span>
+      <span class="env-front" aria-hidden="true"></span>
+      <span class="seal" aria-hidden="true">E</span>
     </a>
   {% else %}<p class="empty">{% include t.html en="The first poem is on its way." ar="القصيدة الأولى في الطريق." %}</p>{% endfor %}
   </div>

@@ -20,8 +20,7 @@
   --grain:.12; --grain-blend:screen;
   color-scheme:dark;
 }
-.room-poems{--bg:#0f0b10;--bg-art:radial-gradient(ellipse 60% 45% at 80% 10%,rgba(233,166,196,.14),transparent 70%);
-  --fg:#f8e3ec;--muted:#9a8392;--accent:#e9a6c4;--accent2:#8fb6d8;--line:rgba(233,166,196,.22);--glow:rgba(233,166,196,.4)}
+.room-poems{--bg:#e6d4b0;--bg-art:radial-gradient(ellipse 60% 50% at 50% 35%,rgba(255,247,226,.55),transparent 70%),radial-gradient(ellipse 120% 100% at 50% 50%,transparent 55%,rgba(110,62,20,.42) 100%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='1600'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.008' numOctaves='5' seed='4' stitchTiles='stitch'/%3E%3CfeDiffuseLighting lighting-color='%23fff6e2' surfaceScale='3'%3E%3CfeDistantLight azimuth='35' elevation='50'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)'/%3E%3C/svg%3E");--fg:#2b1c12;--muted:#7a5b3e;--accent:#7d1d22;--accent2:#a8742a;--line:rgba(80,50,20,.22);--card:#f3e7cc;--glow:rgba(125,29,34,.18);--grain:.16;--grain-blend:multiply;color-scheme:light;--old:"IM Fell English","Cormorant Garamond",Georgia,serif;--quill:"Parisienne","Pinyon Script",cursive}
 .room-essays{--bg:#ece0c6;--bg-art:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,250,232,.85),transparent 70%),radial-gradient(ellipse 50% 40% at 100% 100%,rgba(120,80,30,.22),transparent 70%),radial-gradient(ellipse 40% 30% at 0% 70%,rgba(120,80,30,.12),transparent 70%);
   --fg:#2a2018;--muted:#7b6650;--accent:#7a2e2a;--accent2:#3b4a7a;--line:rgba(60,40,20,.2);--card:#f6eedb;--glow:rgba(122,46,42,.15);
   --grain:.18;--grain-blend:multiply;color-scheme:light}
@@ -302,4 +301,87 @@ time,.kicker{direction:ltr;unicode-bidi:isolate}
   .poem-split{grid-template-columns:1fr;gap:28px;padding-top:24px}
   .poem-pic{position:relative;top:0}
   .poem-pic img{max-height:none}
+}
+
+
+/* ================= POEMS: antique letters, parchment & wax ================= */
+body.room-poems{background-blend-mode:normal,normal,multiply;background-size:auto,auto,1600px 1600px}
+.room-poems .sig,.room-poems .section-hero h1{font-family:var(--old)}
+.room-poems .section-hero h1{font-style:italic;animation:ink-write 2.4s cubic-bezier(.5,0,.2,1) .2s both}
+[dir="rtl"] .room-poems .section-hero h1{animation-name:ink-write-rtl}
+.room-poems .section-hero .note{font-family:var(--quill);font-style:normal;font-size:1.9rem;color:var(--accent)}
+.room-poems .arch{box-shadow:0 20px 50px -18px rgba(70,40,15,.55)}
+.room-poems .arch::after{border-color:rgba(255,240,210,.5)}
+
+/* wax seal */
+.seal{display:grid;place-items:center;width:62px;height:62px;border-radius:47% 53% 50% 50%/52% 46% 54% 48%;
+  background:radial-gradient(circle at 34% 28%,#c2423c 0,#951f22 38%,#6a1015 72%,#4e0b0f 100%);
+  box-shadow:0 4px 8px rgba(40,10,5,.4),inset 0 0 0 5px rgba(0,0,0,.14),inset 0 0 0 7px rgba(255,170,150,.08),inset 2px 3px 6px rgba(255,190,170,.25);
+  font-family:"Pinyon Script",var(--quill);font-size:2rem;line-height:1;color:#5a0d11;text-shadow:1px 1px 0 rgba(255,150,130,.35),-1px -1px 0 rgba(0,0,0,.35)}
+
+/* listing: sealed envelopes, the letter slides up on hover */
+.envelopes{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:56px 36px;padding-top:40px}
+.envelope{position:relative;display:block;height:300px;text-decoration:none;perspective:900px}
+.env-back,.env-front{position:absolute;left:0;right:0;bottom:0;height:62%;border-radius:3px}
+.env-back{background:linear-gradient(180deg,#6e161b,#8a2328);box-shadow:0 18px 36px -14px rgba(60,20,10,.55)}
+.env-front{background:linear-gradient(165deg,#9a2c31,#7c1c21 70%);
+  clip-path:polygon(0 0,50% 46%,100% 0,100% 100%,0 100%);z-index:3}
+.env-front::before{content:"";position:absolute;inset:0;background:linear-gradient(20deg,transparent 48%,rgba(0,0,0,.14) 50%,transparent 52%),linear-gradient(-20deg,transparent 48%,rgba(0,0,0,.14) 50%,transparent 52%)}
+.envelope .seal{position:absolute;left:50%;top:calc(38% + 62% * .46 - 31px);margin-left:-31px;z-index:4;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.letter-in{position:absolute;left:7%;right:7%;top:0;bottom:12%;z-index:2;display:flex;flex-direction:column;gap:8px;padding:22px 20px;
+  background:linear-gradient(180deg,#fbf3dc,#efdfba);box-shadow:0 2px 6px rgba(70,40,15,.18),inset 0 0 26px rgba(150,95,35,.25);
+  transform:translateY(22px);transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.letter-in time{color:#8a6a45}
+.letter-in .t{font-family:var(--old);font-style:italic;font-size:1.65rem;line-height:1.1;color:#2b1c12;text-wrap:balance}
+.letter-in[lang="ar"] .t,.envelope[lang="ar"] .t{font-family:var(--ar-display);font-style:normal}
+.letter-in .first{font-family:var(--quill);font-size:1.25rem;line-height:1.35;color:#4b3523;opacity:.85}
+.letter-in .thumb{display:block;flex:1;min-height:0;overflow:hidden;border:5px solid #fffaf0;box-shadow:0 2px 5px rgba(0,0,0,.2);transform:rotate(-1.5deg)}
+.letter-in .thumb img{width:100%;height:100%;object-fit:cover;filter:sepia(.35)}
+.envelope:hover .letter-in,.envelope:focus-visible .letter-in{transform:translateY(-34px)}
+.envelope:hover .seal{transform:rotate(-14deg) scale(1.06)}
+
+/* poem page: a torn parchment sheet that unfolds */
+.room-poems .piece{position:relative;isolation:isolate;max-width:680px;margin:28px auto 80px;padding:76px clamp(26px,7vw,72px) 64px;
+  transform-origin:50% 0;animation:unfold 1.4s cubic-bezier(.2,.75,.2,1) both}
+.room-poems .piece::before{content:"";position:absolute;inset:0;z-index:-1;filter:url(#deckle);
+  background:radial-gradient(ellipse at 30% 20%,rgba(255,252,238,.9),transparent 60%),linear-gradient(180deg,#f4e6c4,#e9d4a6);
+  box-shadow:inset 0 0 60px rgba(140,82,28,.55),inset 0 0 14px rgba(110,60,20,.5),0 26px 50px -22px rgba(60,35,10,.55)}
+@keyframes unfold{0%{opacity:0;transform:perspective(1400px) rotateX(-68deg) translateY(-30px)}55%{opacity:1}100%{transform:none}}
+.room-poems .piece h1{font-family:var(--old);font-style:italic;color:#2b1c12}
+.room-poems .piece .kicker{color:#8a6a45}
+.room-poems .by.emily{font-family:var(--emily);color:var(--accent);text-shadow:none;font-size:2.6rem}
+.room-poems .is-poem .text{font-family:var(--quill);font-size:1.6rem;line-height:1.75;color:#2b1c12}
+.room-poems .is-poem[lang="ar"] .text{font-family:var(--ar-display);font-size:1.55rem;line-height:2.1}
+.room-poems .is-poem .text p{margin:0 0 .25em}
+.room-poems .lines > *{animation:quill 1.4s cubic-bezier(.5,0,.3,1) both;animation-delay:calc(1s + var(--i,0) * 160ms)}
+@keyframes quill{from{clip-path:inset(0 100% 0 0);opacity:.2}to{clip-path:inset(0 0 0 0);opacity:1}}
+.room-poems [dir="rtl"] .lines > *{animation-name:quill-rtl}
+@keyframes quill-rtl{from{clip-path:inset(0 0 0 100%);opacity:.2}to{clip-path:inset(0 0 0 0);opacity:1}}
+.piece .seal{margin:48px auto 0}
+.room-poems .pager{border-top-color:rgba(80,50,20,.25)}
+.room-poems .pager a{font-family:var(--old)}
+
+/* poem with picture: an old photograph beside the sheet */
+.room-poems .poem-split{gap:40px}
+.room-poems .poem-split .piece{margin-top:0}
+.room-poems .poem-pic{border-radius:0;padding:12px 12px 40px;background:#fbf5e6;transform:rotate(-2deg);
+  box-shadow:0 2px 4px rgba(60,35,10,.15),0 30px 50px -24px rgba(60,35,10,.6);animation:rise 1.2s cubic-bezier(.2,.7,.2,1) .5s both}
+.room-poems .poem-pic img{filter:sepia(.3) contrast(1.03)}
+.room-poems .poem-pic::after{display:none}
+.room-poems .poem-pic::before{content:"";position:absolute;top:-12px;left:50%;width:110px;height:28px;margin-left:-55px;z-index:2;background:rgba(240,225,190,.75);transform:rotate(3deg);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+
+/* turning the page when you arrive in the poems room */
+html:has(body.room-poems)::view-transition-old(root){animation:turn-out .8s cubic-bezier(.5,0,.6,1) both;transform-origin:0 50%}
+html:has(body.room-poems)::view-transition-new(root){animation:turn-in .9s cubic-bezier(.2,.7,.2,1) .15s both}
+@keyframes turn-out{to{transform:perspective(1800px) rotateY(-95deg);opacity:.2;filter:sepia(.6) brightness(.85)}}
+@keyframes turn-in{from{opacity:0;filter:sepia(.5) blur(4px)}}
+
+@media (prefers-reduced-motion:reduce){
+  .room-poems .piece,.room-poems .lines > *,.room-poems .poem-pic{animation:none!important}
+  html:has(body.room-poems)::view-transition-old(root),html:has(body.room-poems)::view-transition-new(root){animation:none}
+}
+
+@media (hover:hover){
+  .letter-in .first{opacity:0;transition:opacity .6s .15s}
+  .envelope:hover .letter-in .first,.envelope:focus-visible .letter-in .first{opacity:.85}
 }

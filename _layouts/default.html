@@ -10,12 +10,13 @@
 <script>try{if(localStorage.getItem('ebn-lang')==='ar'){var d=document.documentElement;d.setAttribute('data-lang','ar');d.setAttribute('dir','rtl');d.lang='ar'}}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Mrs+Saint+Delafield&family=Pinyon+Script&family=Caveat:wght@400;600&family=Space+Mono&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Mrs+Saint+Delafield&family=Pinyon+Script&family=IM+Fell+English:ital@0;1&family=Parisienne&family=Caveat:wght@400;600&family=Space+Mono&display=swap">
 <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body class="room-{{ room }}" data-room="{{ room }}">
 <div class="leak" aria-hidden="true"></div>
 <canvas id="sky" aria-hidden="true"></canvas>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><filter id="deckle" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="7"/><feDisplacementMap in="SourceGraphic" scale="16"/></filter></svg>
 <nav class="top"><div class="wrap">
   <a class="sig" href="/">{% include t.html en=h.site_name ar="إيميلي ليلاً" %}</a>
   <ul>
