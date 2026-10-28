@@ -1,0 +1,23 @@
+---
+layout: default
+---
+{% assign isAr = false %}{% if page.language == "Arabic" %}{% assign isAr = true %}{% endif %}
+{% assign docs = site.journal | sort: "date" | reverse %}
+{% assign i = 0 %}{% for d in docs %}{% if d.url == page.url %}{% assign i = forloop.index0 %}{% endif %}{% endfor %}
+{% assign ni = i | plus: 1 %}{% assign pi = i | minus: 1 %}
+{% assign older = docs[ni] %}{% if i > 0 %}{% assign newer = docs[pi] %}{% endif %}
+<article class="wrap"><div class="diary"{% if isAr %} lang="ar" dir="rtl"{% else %} lang="en" dir="ltr"{% endif %}>
+  <span class="kicker">{{ page.date | date: "%A, %-d %B %Y" }}{% if page.feeling and page.feeling != "" %} · {{ page.feeling }}{% endif %}</span>
+  <h1>{{ page.title }}</h1>
+  {% if page.photos and page.photos.size > 0 %}
+  <div class="diary-photos">
+    {% for p in page.photos %}{% assign r = forloop.index0 | modulo: 3 | minus: 1 %}<figure class="snap big rise" style="--i:{{ forloop.index0 }};--r:{{ r }}"><img src="{{ p }}" alt=""></figure>{% endfor %}
+  </div>
+  {% endif %}
+  {% assign c = content | strip %}{% if c != "" %}<div class="diary-note lines">{{ content }}</div>{% endif %}
+  <nav class="pager" dir="auto">
+    {% if newer %}<a href="{{ newer.url }}"><small>{% include t.html en="Newer" ar="الأحدث" %}</small>{{ newer.title }}</a>{% else %}<span></span>{% endif %}
+    {% if older %}<a class="older" href="{{ older.url }}"><small>{% include t.html en="Older" ar="الأقدم" %}</small>{{ older.title }}</a>{% endif %}
+  </nav>
+  <a class="back" href="/journal/">{% include t.html en="← Journal" ar="→ اليوميات" %}</a>
+</div></article>

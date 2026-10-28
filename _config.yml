@@ -10,6 +10,9 @@ collections:
   articles:
     output: true
     permalink: /articles/:name/
+  journal:
+    output: true
+    permalink: /journal/:name/
 defaults:
   - scope: { type: poems }
     values: { layout: piece, kind: poem }
@@ -17,3 +20,5 @@ defaults:
     values: { layout: piece, kind: essay }
   - scope: { type: articles }
     values: { layout: piece, kind: article }
+  - scope: { type: journal }
+    values: { layout: entry, kind: entry }

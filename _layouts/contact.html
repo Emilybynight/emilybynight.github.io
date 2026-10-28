@@ -1,0 +1,17 @@
+---
+layout: default
+---
+{% assign h = site.data.home %}
+<section class="contact"><div class="wrap">
+  <h1 class="title-motion">{% include t.html en=h.contact_title ar=h.contact_title_ar %}</h1>
+  <p class="lede">{% include t.html en=h.contact_text ar=h.contact_text_ar %}</p>
+  {% if h.email and h.email != "" %}
+  <div class="mail rise">
+    <a href="mailto:{{ h.email }}">{{ h.email }}</a>
+    <button type="button" class="copy" data-copy="{{ h.email }}">{% include t.html en="Copy" ar="نسخ" %}</button>
+  </div>
+  {% endif %}
+  <ul class="link-list">
+    {% for l in h.links %}<li class="rise" style="--i:{{ forloop.index }}"><a href="{{ l.url }}" target="_blank" rel="noopener"><span>{{ l.label }}</span><b aria-hidden="true">↗</b></a></li>{% endfor %}
+  </ul>
+</div></section>

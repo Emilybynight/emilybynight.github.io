@@ -1,28 +1,34 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 {% assign h = site.data.home %}
-<title>{% if page.layout == 'piece' or page.layout == 'section' %}{{ page.title }} · {% endif %}{{ h.site_name | default: "Emily by Night" }}</title>
+{% assign room = page.room | default: page.section | default: page.collection | default: "home" %}
+<title>{% if room != "home" %}{{ page.title }} · {% endif %}{{ h.site_name | default: "Emily by Night" }}</title>
 <meta name="description" content="{{ h.intro }}">
+<script>try{if(localStorage.getItem('ebn-lang')==='ar'){var d=document.documentElement;d.setAttribute('data-lang','ar');d.setAttribute('dir','rtl');d.lang='ar'}}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Amiri:ital@0;1&family=Mrs+Saint+Delafield&family=Space+Mono&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Mrs+Saint+Delafield&family=Pinyon+Script&family=Caveat:wght@400;600&family=Space+Mono&display=swap">
 <link rel="stylesheet" href="/assets/style.css">
 </head>
-{% assign here = page.section | default: page.collection %}
-<body>
-<canvas id="petals" aria-hidden="true"></canvas>
-<nav><div class="wrap">
-  <a class="sig" href="/">{{ h.site_name | default: "Emily by Night" }}</a>
+<body class="room-{{ room }}" data-room="{{ room }}">
+<div class="leak" aria-hidden="true"></div>
+<canvas id="sky" aria-hidden="true"></canvas>
+<nav class="top"><div class="wrap">
+  <a class="sig" href="/">{% include t.html en=h.site_name ar="إيميلي ليلاً" %}</a>
   <ul>
-    <li><a href="/poems/"{% if here == 'poems' %} aria-current="page"{% endif %}>{{ h.poems_title | default: "Poems" }}</a></li>
-    <li><a href="/essays/"{% if here == 'essays' %} aria-current="page"{% endif %}>{{ h.essays_title | default: "Essays" }}</a></li>
-    <li><a href="/articles/"{% if here == 'articles' %} aria-current="page"{% endif %}>{{ h.articles_title | default: "Articles" }}</a></li>
-    <li><a href="/#about">About</a></li>
+    <li><a href="/"{% if room == 'home' %} aria-current="page"{% endif %}>{% include t.html en="Home" ar="الرئيسية" %}</a></li>
+    <li><a href="/poems/"{% if room == 'poems' %} aria-current="page"{% endif %}>{% include t.html en=h.poems_title ar=h.poems_title_ar %}</a></li>
+    <li><a href="/essays/"{% if room == 'essays' %} aria-current="page"{% endif %}>{% include t.html en=h.essays_title ar=h.essays_title_ar %}</a></li>
+    <li><a href="/articles/"{% if room == 'articles' %} aria-current="page"{% endif %}>{% include t.html en=h.articles_title ar=h.articles_title_ar %}</a></li>
+    <li><a href="/journal/"{% if room == 'journal' %} aria-current="page"{% endif %}>{% include t.html en=h.journal_title ar=h.journal_title_ar %}</a></li>
+    <li><a href="/contact/"{% if room == 'contact' %} aria-current="page"{% endif %}>{% include t.html en="Contact" ar="تواصل" %}</a></li>
+    <li><button id="lang" type="button" aria-label="Switch language"><span class="l-en" lang="ar">عربي</span><span class="l-ar">English</span></button></li>
   </ul>
 </div></nav>
-<main class="page">
+<main>
 {{ content }}
 </main>
 <footer><div class="wrap">{{ h.footer }}</div></footer>

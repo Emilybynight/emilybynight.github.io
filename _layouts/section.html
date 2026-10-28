@@ -3,37 +3,65 @@ layout: default
 ---
 {% assign h = site.data.home %}
 {% assign key = page.section %}
-{% assign tkey = key | append: "_title" %}{% assign nkey = key | append: "_note" %}{% assign ikey = key | append: "_image" %}
-{% assign img = h[ikey] %}
+{% assign tkey = key | append: "_title" %}{% assign tkeyar = tkey | append: "_ar" %}
+{% assign nkey = key | append: "_note" %}{% assign nkeyar = nkey | append: "_ar" %}
+{% assign ikey = key | append: "_image" %}
+{% assign te = h[tkey] | default: page.title %}{% assign ta = h[tkeyar] %}{% assign ne = h[nkey] %}{% assign na = h[nkeyar] %}
 {% assign items = site[key] | sort: "date" | reverse %}
 <header class="section-hero"><div class="wrap">
   <div>
-    <span class="kicker">{{ items.size }} {% if items.size == 1 %}piece{% else %}pieces{% endif %}</span>
-    <h1>{{ h[tkey] | default: page.title }}</h1>
-    <p class="{% if key == 'poems' %}hand{% else %}note{% endif %}">{{ h[nkey] }}</p>
+    <span class="count">{{ items.size }} · {% include t.html en="pieces" ar="نصوص" %}</span>
+    <h1 class="title-motion">{% include t.html en=te ar=ta %}</h1>
+    <p class="note">{% include t.html en=ne ar=na %}</p>
   </div>
-  <div class="arch tint-{{ key }}{% if img %} own{% endif %}" style="view-transition-name: door-{{ key }}">
-    <img src="{{ img | default: '/assets/images/lily.jpg' }}" alt="">
+  <div class="arch art-{{ key }}" style="view-transition-name: door-{{ key }}">
+    {% if h[ikey] and h[ikey] != "" %}<img src="{{ h[ikey] }}" alt="">{% endif %}
   </div>
 </div></header>
 
 <section class="listing"><div class="wrap">
-{% if key == 'poems' %}
+{% case key %}
+{% when "poems" %}
   <div class="poem-cards">
   {% for d in items %}
-    <a class="poem-card reveal" style="--i:{{ forloop.index0 }}" href="{{ d.url }}"{% if d.language == 'Arabic' %} dir="rtl" lang="ar"{% endif %}>
+    <a class="poem-card rise" style="--i:{{ forloop.index0 }}" href="{{ d.url }}"{% if d.language == 'Arabic' %} dir="rtl" lang="ar"{% else %} dir="ltr"{% endif %}>
       <time>{{ d.date | date: "%B %Y" }}</time>
       <h2>{{ d.title }}</h2>
       <p>{{ d.content | strip_html | truncatewords: 22 }}</p>
-      <span class="more">Read the poem →</span>
+      <span class="more">{% include t.html en="Read the poem →" ar="← اقرأ القصيدة" %}</span>
     </a>
-  {% else %}<p class="empty">The first poem is on its way.</p>{% endfor %}
+  {% else %}<p class="empty">{% include t.html en="The first poem is on its way." ar="القصيدة الأولى في الطريق." %}</p>{% endfor %}
+  </div>
+{% when "essays" %}
+  <div class="letters">
+  {% for e in items %}
+    {% assign r = forloop.index0 | modulo: 3 | minus: 1 %}
+    <a class="letter rise" style="--i:{{ forloop.index0 }};--r:{{ r }}" href="{% if e.link and e.link != '' %}{{ e.link }}{% else %}{{ e.url }}{% endif %}"{% if e.link and e.link != '' %} target="_blank" rel="noopener"{% endif %}{% if e.language == 'Arabic' %} dir="rtl" lang="ar"{% else %} dir="ltr"{% endif %}>
+      <time>{{ e.date | date: "%-d %B %Y" }}</time>
+      <h2>{{ e.title }}</h2>
+      {% if e.excerpt %}<p>{{ e.excerpt }}</p>{% endif %}
+      <span class="signed">Hiba</span>
+    </a>
+  {% else %}<p class="empty">{% include t.html en="The first letter is being written." ar="الرسالة الأولى قيد الكتابة." %}</p>{% endfor %}
+  </div>
+{% when "journal" %}
+  <div class="scrapbook">
+  {% for j in items %}
+    {% assign r = forloop.index0 | modulo: 4 | minus: 1.5 %}
+    {% assign pic = j.photos | first %}
+    <a class="snap rise{% unless pic %} note-card{% endunless %}" style="--i:{{ forloop.index0 }};--r:{{ r }}" href="{{ j.url }}"{% if j.language == 'Arabic' %} dir="rtl" lang="ar"{% else %} dir="ltr"{% endif %}>
+      {% if pic %}<img src="{{ pic }}" alt="{{ j.title }}" loading="lazy">{% endif %}
+      <span class="cap">{{ j.title }}</span>
+      {% unless pic %}<span class="snip">{{ j.content | strip_html | truncatewords: 26 }}</span>{% endunless %}
+      <time>{{ j.date | date: "%-d %b %Y" }}{% if j.feeling and j.feeling != "" %} · {{ j.feeling }}{% endif %}</time>
+    </a>
+  {% else %}<p class="empty">{% include t.html en="The journal is still blank." ar="اليوميات ما زالت فارغة." %}</p>{% endfor %}
   </div>
 {% else %}
   <div class="entries">
   {% for e in items %}
-    <a class="entry reveal" style="--i:{{ forloop.index0 }}" href="{% if e.link %}{{ e.link }}{% else %}{{ e.url }}{% endif %}"{% if e.link %} target="_blank" rel="noopener"{% endif %}><time>{{ e.date | date: "%b %Y" }}</time><div><h3>{{ e.title }}</h3>{% if e.excerpt %}<p>{{ e.excerpt }}</p>{% endif %}</div><span class="tag">{{ e.topic }}</span></a>
-  {% else %}<p class="empty">Coming soon.</p>{% endfor %}
+    <a class="entry rise" style="--i:{{ forloop.index0 }}" href="{% if e.link and e.link != '' %}{{ e.link }}{% else %}{{ e.url }}{% endif %}"{% if e.link and e.link != '' %} target="_blank" rel="noopener"{% endif %}{% if e.language == 'Arabic' %} dir="rtl" lang="ar"{% else %} dir="ltr"{% endif %}><time>{{ e.date | date: "%b %Y" }}</time><div><h2>{{ e.title }}</h2>{% if e.excerpt %}<p>{{ e.excerpt }}</p>{% endif %}</div><span class="tag">{{ e.topic }}</span></a>
+  {% else %}<p class="empty">{% include t.html en="Coming soon." ar="قريباً." %}</p>{% endfor %}
   </div>
-{% endif %}
+{% endcase %}
 </div></section>

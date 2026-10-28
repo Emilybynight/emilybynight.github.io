@@ -1,32 +1,34 @@
 ---
 layout: default
+room: home
 ---
 {% assign h = site.data.home %}
-<header class="hero" id="top"><div class="wrap">
-  <div>
-    <h1 class="reveal">{{ h.headline_day }}<br><em>{{ h.headline_night }}</em> {{ h.headline_end }}</h1>
-    <p class="reveal" style="--i:2">{{ h.intro }}</p>
-    {% if h.arabic_line %}<span class="ar reveal" style="--i:3">{{ h.arabic_line }}</span>{% endif %}
+<header class="hero"><div class="wrap">
+  <div class="hero-text">
+    <h1 class="rise">{% if h.headline_day and h.headline_day != "" %}{% include t.html en=h.headline_day ar=h.headline_day_ar %}<br>{% endif %}<em>{% include t.html en=h.headline_night ar=h.headline_night_ar %}</em> {% include t.html en=h.headline_end ar=h.headline_end_ar %}</h1>
+    <p class="lede rise" style="--i:2">{% include t.html en=h.intro ar=h.intro_ar %}</p>
+    {% if h.arabic_line %}<p class="ar-line rise" lang="ar" dir="rtl" style="--i:3">{{ h.arabic_line }}</p>{% endif %}
   </div>
-  <figure class="bloom" style="margin:0">
+  <figure class="arch hero-arch rise" style="--i:1">
     <img alt="" src="{{ h.hero_image | default: '/assets/images/lily.jpg' }}">
-    {% if h.hero_caption %}<figcaption>{{ h.hero_caption }}</figcaption>{% endif %}
   </figure>
 </div></header>
 
-<section class="doors-wrap"><div class="wrap">
+<section class="rooms"><div class="wrap">
   <div class="doors">
-  {% assign keys = "poems,essays,articles" | split: "," %}
+  {% assign keys = "poems,essays,articles,journal" | split: "," %}
   {% for key in keys %}
-    {% assign tkey = key | append: "_title" %}{% assign nkey = key | append: "_note" %}{% assign ikey = key | append: "_image" %}
-    {% assign img = h[ikey] %}
-    <a class="door reveal" style="--i:{{ forloop.index }}" href="/{{ key }}/">
-      <div class="arch tint-{{ key }}{% if img %} own{% endif %}" style="view-transition-name: door-{{ key }}">
-        <img src="{{ img | default: '/assets/images/lily.jpg' }}" alt="">
+    {% assign tkey = key | append: "_title" %}{% assign tkeyar = tkey | append: "_ar" %}
+    {% assign nkey = key | append: "_note" %}{% assign nkeyar = nkey | append: "_ar" %}
+    {% assign ikey = key | append: "_image" %}
+    {% assign te = h[tkey] %}{% assign ta = h[tkeyar] %}{% assign ne = h[nkey] %}{% assign na = h[nkeyar] %}
+    <a class="door rise" style="--i:{{ forloop.index | plus: 2 }}" href="/{{ key }}/">
+      <div class="arch art-{{ key }}" style="view-transition-name: door-{{ key }}">
+        {% if h[ikey] and h[ikey] != "" %}<img src="{{ h[ikey] }}" alt="" loading="lazy">{% endif %}
       </div>
-      <span class="count">{{ site[key].size }} {% if site[key].size == 1 %}piece{% else %}pieces{% endif %}</span>
-      <h2>{{ h[tkey] | default: key }}</h2>
-      <p class="{% if key == 'poems' %}hand{% else %}note{% endif %}">{{ h[nkey] }}</p>
+      <span class="count">{{ site[key].size }} · {% include t.html en="pieces" ar="نصوص" %}</span>
+      <h2>{% include t.html en=te ar=ta %}</h2>
+      <p class="note">{% include t.html en=ne ar=na %}</p>
     </a>
   {% endfor %}
   </div>
@@ -35,32 +37,20 @@ layout: default
 {% assign latest = site.poems | sort: "date" | reverse | first %}
 {% if latest %}
 <section class="latest"><div class="wrap">
-  <span class="kicker">Latest from Emily</span>
-  <a class="latest-poem" href="{{ latest.url }}"{% if latest.language == 'Arabic' %} dir="rtl" lang="ar"{% endif %}>
+  <span class="kicker">{% include t.html en="Latest from Emily" ar="آخر ما كتبت إيميلي" %}</span>
+  <a class="latest-poem" href="{{ latest.url }}"{% if latest.language == 'Arabic' %} dir="rtl" lang="ar"{% else %} dir="ltr"{% endif %}>
     <h2>{{ latest.title }}</h2>
     <p>{{ latest.content | strip_html | truncatewords: 30 }}</p>
-    <span class="more">Read the whole poem →</span>
+    <span class="more">{% include t.html en="Read the whole poem →" ar="← اقرأ القصيدة كاملة" %}</span>
   </a>
 </div></section>
 {% endif %}
 
-<section aria-label="{{ h.moments_title }}"><div class="wrap">
-  <div class="head"><h2>{{ h.moments_title | default: "Moments" }}</h2><span>{{ h.moments_note }}</span></div>
-  <div class="candid">
-  {% if h.moments and h.moments.size > 0 %}
-    {% for m in h.moments %}<figure class="ph has-img"><img src="{{ m.image }}" alt="{{ m.caption }}" loading="lazy"><figcaption><b>{{ m.caption }}</b></figcaption></figure>{% endfor %}
-  {% else %}
-    <div class="ph"><b>Sea, morning</b><small>Add photos in the dashboard</small></div>
-    <div class="ph"><b>Coffee, balcony</b><small>Add photos in the dashboard</small></div>
-    <div class="ph"><b>The garden</b><small>Add photos in the dashboard</small></div>
-  {% endif %}
-  </div>
-</div></section>
-
-<section class="about" id="about"><div class="wrap">
-  <blockquote>“{{ h.about_quote }}”</blockquote>
-  <div>
-    {{ h.about_text | markdownify }}
-    <div class="links"><a href="{{ h.substack_url }}" target="_blank" rel="noopener">Newsletter on Substack</a><a href="/poems/">Start reading</a></div>
+<section class="about"><div class="wrap">
+  <blockquote>{% include t.html en=h.about_quote ar=h.about_quote_ar %}</blockquote>
+  <div class="about-text">
+    <div class="l-en">{{ h.about_text | markdownify }}</div>
+    <div class="l-ar" lang="ar">{{ h.about_text_ar | default: h.about_text | markdownify }}</div>
+    <div class="pills"><a href="/contact/">{% include t.html en="Contact & links" ar="تواصل وروابط" %}</a><a href="/poems/">{% include t.html en="Start reading" ar="ابدأ القراءة" %}</a></div>
   </div>
 </div></section>

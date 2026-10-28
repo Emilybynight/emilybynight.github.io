@@ -18,7 +18,8 @@ content:
         type: select
         default: English
         options:
-          values: [English, Arabic, French]
+          values: [English, Arabic]
+      - { name: cover, label: Background picture (optional), type: image }
       - { name: body, label: Poem (press Enter for each new line), type: text }
 
   - name: essays
@@ -31,9 +32,15 @@ content:
     fields:
       - { name: title, label: Title, type: string, required: true }
       - { name: date, label: Date, type: date, required: true }
+      - name: language
+        label: Language
+        type: select
+        default: English
+        options:
+          values: [English, Arabic]
       - { name: topic, label: Topic (small label), type: string }
-      - { name: excerpt, label: Short summary for the homepage, type: text }
-      - { name: cover, label: Cover image (optional), type: image }
+      - { name: excerpt, label: Short summary shown on the letter, type: text }
+      - { name: cover, label: Cover picture (optional), type: image }
       - { name: link, label: "Link elsewhere instead (optional, e.g. Substack)", type: string }
       - { name: body, label: Essay, type: rich-text }
 
@@ -47,42 +54,90 @@ content:
     fields:
       - { name: title, label: Title, type: string, required: true }
       - { name: date, label: Date, type: date, required: true }
+      - name: language
+        label: Language
+        type: select
+        default: English
+        options:
+          values: [English, Arabic]
       - { name: topic, label: Topic (small label), type: string }
-      - { name: excerpt, label: Short summary for the homepage, type: text }
-      - { name: cover, label: Cover image (optional), type: image }
+      - { name: excerpt, label: Short summary for the list, type: text }
+      - { name: cover, label: Cover picture (optional), type: image }
       - { name: link, label: "Link elsewhere instead (optional, e.g. Substack)", type: string }
       - { name: body, label: Article, type: rich-text }
 
+  - name: journal
+    label: Journal (diary & pictures)
+    type: collection
+    path: _journal
+    filename: "{primary}.md"
+    view:
+      fields: [title, date, feeling]
+    fields:
+      - { name: title, label: Title or caption, type: string, required: true }
+      - { name: date, label: Date, type: date, required: true }
+      - name: language
+        label: Language
+        type: select
+        default: English
+        options:
+          values: [English, Arabic]
+      - { name: photos, label: Pictures (add as many as you like), type: image, list: true }
+      - { name: feeling, label: "Little tag (optional, e.g. loving lately, mood, found)", type: string }
+      - { name: body, label: Your note, type: rich-text }
+
   - name: home
-    label: Homepage, titles & photos
+    label: Site texts, titles & pictures
     type: file
     path: _data/home.yml
     format: yaml
     fields:
       - { name: site_name, label: Site name (top left), type: string }
-      - { name: headline_day, label: Headline line 1, type: string }
+      - { name: headline_day, label: Headline first line (optional), type: string }
+      - { name: headline_day_ar, label: Headline first line — Arabic, type: string }
       - { name: headline_night, label: Headline glowing word, type: string }
+      - { name: headline_night_ar, label: Headline glowing word — Arabic, type: string }
       - { name: headline_end, label: Headline ending, type: string }
+      - { name: headline_end_ar, label: Headline ending — Arabic, type: string }
       - { name: intro, label: Intro text, type: text }
-      - { name: arabic_line, label: Arabic line under intro, type: string }
-      - { name: hero_image, label: Main picture, type: image }
-      - { name: hero_caption, label: Main picture caption, type: string }
-      - { name: poems_title, label: Poems section title, type: string }
-      - { name: poems_note, label: Poems signature, type: string }
-      - { name: moments_title, label: Photos section title, type: string }
-      - { name: moments_note, label: Photos section note, type: string }
-      - name: moments
-        label: Candid photos
+      - { name: intro_ar, label: Intro text — Arabic, type: text }
+      - { name: arabic_line, label: Arabic line under the intro, type: string }
+      - { name: hero_image, label: Main homepage picture, type: image }
+      - { name: poems_title, label: Poems title, type: string }
+      - { name: poems_title_ar, label: Poems title — Arabic, type: string }
+      - { name: poems_note, label: Poems subtitle, type: string }
+      - { name: poems_note_ar, label: Poems subtitle — Arabic, type: string }
+      - { name: poems_image, label: Poems door picture, type: image }
+      - { name: essays_title, label: Essays title, type: string }
+      - { name: essays_title_ar, label: Essays title — Arabic, type: string }
+      - { name: essays_note, label: Essays subtitle, type: string }
+      - { name: essays_note_ar, label: Essays subtitle — Arabic, type: string }
+      - { name: essays_image, label: "Essays door picture (empty = painted letter)", type: image }
+      - { name: articles_title, label: Articles title, type: string }
+      - { name: articles_title_ar, label: Articles title — Arabic, type: string }
+      - { name: articles_note, label: Articles subtitle, type: string }
+      - { name: articles_note_ar, label: Articles subtitle — Arabic, type: string }
+      - { name: articles_image, label: Articles door picture, type: image }
+      - { name: journal_title, label: Journal title, type: string }
+      - { name: journal_title_ar, label: Journal title — Arabic, type: string }
+      - { name: journal_note, label: Journal subtitle, type: string }
+      - { name: journal_note_ar, label: Journal subtitle — Arabic, type: string }
+      - { name: journal_image, label: "Journal door picture (empty = painted polaroid)", type: image }
+      - { name: about_quote, label: About quote, type: string }
+      - { name: about_quote_ar, label: About quote — Arabic, type: string }
+      - { name: about_text, label: About text, type: text }
+      - { name: about_text_ar, label: About text — Arabic, type: text }
+      - { name: contact_title, label: Contact page title, type: string }
+      - { name: contact_title_ar, label: Contact page title — Arabic, type: string }
+      - { name: contact_text, label: Contact page text, type: text }
+      - { name: contact_text_ar, label: Contact page text — Arabic, type: text }
+      - { name: email, label: Email shown on the contact page (optional), type: string }
+      - name: links
+        label: Links (Substack, Instagram…)
         type: object
         list: true
         fields:
-          - { name: image, label: Photo, type: image }
-          - { name: caption, label: Caption, type: string }
-      - { name: essays_title, label: Essays section title, type: string }
-      - { name: essays_note, label: Essays section note, type: string }
-      - { name: articles_title, label: Articles section title, type: string }
-      - { name: articles_note, label: Articles section note, type: string }
-      - { name: about_quote, label: About quote, type: string }
-      - { name: about_text, label: About text, type: text }
+          - { name: label, label: Name shown, type: string }
+          - { name: url, label: Web address, type: string }
       - { name: substack_url, label: Substack link, type: string }
       - { name: footer, label: Footer text, type: string }

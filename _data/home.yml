@@ -6,10 +6,6 @@ arabic_line: أكتبُ كي يتنفّسَ الضوء
 hero_image: /assets/images/download (7).png
 poems_title: Poems
 poems_note: by Emily
-moments_title: Moments
-moments_note: candid, unposed
-moments:
-  - image: /assets/images/7de38e759cb6d78d60ecbae61f416fdb.jpg
 essays_title: Essays
 essays_note: by Hiba BenK · long reads
 articles_title: Articles
@@ -25,3 +21,34 @@ about_text: >-
   night garden of poems, essays and articles that we keep tending.
 substack_url: https://substack.com
 footer: © 2026 Hiba BenK & Emily
+
+# ---- Arabic versions & new pages ----
+headline_day_ar: ""
+headline_night_ar: إيميلي
+headline_end_ar: ليلاً.
+intro_ar: ما لم تقله إيميلي
+poems_title_ar: قصائد
+poems_note_ar: بقلم إيميلي
+poems_image: /assets/images/lily.jpg
+essays_title_ar: نصوص
+essays_note_ar: بقلم هبة · قراءات طويلة
+articles_title_ar: تحليلات
+articles_note_ar: بقلم هبة · تحليل وتعليق
+articles_image: /assets/images/467e4befd9c92ef16a739d804f31aa12.jpg
+journal_title: Journal
+journal_title_ar: يوميات
+journal_note: pictures, things I love, little notes
+journal_note_ar: صور، أشياء أحبها، وملاحظات صغيرة
+about_quote_ar: في النهار أكتب التقرير، وفي الليل تكتب إيميلي القصيدة.
+about_text_ar: |-
+  أنا هبة، كاتبة من المغرب. أكتب بين الشؤون الدولية والحميمي: كيف تنتقل الثقافة والهوية والسلطة عبر المؤسسات، وعبر النساء اللواتي يحملنها.
+
+  إيميلي هي الجزء مني الذي لا يتكلم إلا شعراً. هذا بيتنا المشترك.
+contact_title: Contact & Links
+contact_title_ar: تواصل وروابط
+contact_text: For collaborations, invitations, or just to say hello.
+contact_text_ar: للتعاون أو الدعوات، أو فقط لإلقاء التحية.
+email: ""
+links:
+  - label: Newsletter on Substack
+    url: https://substack.com
