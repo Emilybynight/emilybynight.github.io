@@ -1,0 +1,125 @@
+/* Layout: a dark room lit by one glowing lily; film grain over everything; writing floats like light on night. */
+:root{
+  --night:#0f0b10;        /* the dark behind the flowers */
+  --petal:#e9a6c4;        /* lily pink */
+  --glow:#f8e3ec;         /* petal highlight, used for text */
+  --dusk:#9a8392;         /* muted mauve for secondary text */
+  --sky:#8fb6d8;          /* sunlit sea blue from the candid photo */
+  --line:rgba(233,166,196,.22);
+  --display:"Instrument Serif", "Cormorant Garamond", Georgia, serif;
+  --body:"Newsreader", Georgia, "Times New Roman", serif;
+  --arabic:"Amiri", "Noto Naskh Arabic", "Traditional Arabic", serif;
+  --hand:"Mrs Saint Delafield", "Snell Roundhand", cursive;
+  --mono:"Space Mono", ui-monospace, Menlo, monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--night);color:var(--glow);font-family:var(--body);font-size:1.075rem;line-height:1.7;font-weight:300;overflow-x:hidden}
+/* film grain */
+body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:50;opacity:.13;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1.2s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-4%)}60%{transform:translate(-4%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
+@media (prefers-reduced-motion:reduce){body::after{animation:none}.bloom img{animation:none}}
+a{color:inherit}
+:focus-visible{outline:1px solid var(--petal);outline-offset:4px}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:linear-gradient(var(--night),rgba(15,11,16,.85) 70%,transparent)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--night)}
+nav .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;padding-block:20px}
+.sig{font-family:var(--display);font-style:italic;font-size:1.5rem;text-decoration:none;color:var(--glow)}
+nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+nav ul a{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;color:var(--dusk);transition:color .3s}
+nav ul a:hover{color:var(--petal)}
+
+/* hero */
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding-block:40px 80px}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(3.2rem,9vw,7.2rem);line-height:.92;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.hero h1 em{color:var(--petal);text-shadow:0 0 40px rgba(233,166,196,.45)}
+.hero p{max-width:34ch;color:var(--dusk);font-style:italic;font-size:1.15rem;margin:28px 0 0}
+.hero .ar{font-family:var(--arabic);font-style:normal;direction:rtl;color:var(--glow);font-size:1.4rem;margin-top:18px;display:block}
+.bloom{position:relative;max-width:100%;aspect-ratio:9/14;border-radius:999px 999px 6px 6px;overflow:hidden;
+  box-shadow:0 0 120px 10px rgba(233,166,196,.18)}
+.bloom img{width:100%;height:100%;object-fit:cover;filter:saturate(1.05) contrast(1.05);animation:breathe 14s ease-in-out infinite alternate}
+@keyframes breathe{from{transform:scale(1)}to{transform:scale(1.08)}}
+.bloom figcaption{position:absolute;left:0;right:0;bottom:0;padding:14px 18px;font-family:var(--mono);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--glow);background:linear-gradient(transparent,rgba(15,11,16,.8))}
+
+/* sections */
+section{padding-block:72px;border-top:1px solid var(--line)}
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:40px}
+.head h2{font-family:var(--display);font-weight:400;font-size:clamp(2.2rem,5vw,3.4rem);margin:0;line-height:1}
+.head h2 .byline{font-family:var(--hand);font-size:.75em;color:var(--petal);letter-spacing:0;text-transform:none;margin-inline-start:.3em;text-shadow:0 0 24px rgba(233,166,196,.4)}
+.head > span{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dusk)}
+
+/* poems: each one alone, lots of air */
+.poems{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:56px 64px}
+.poem h3{font-family:var(--display);font-style:italic;font-weight:400;font-size:1.8rem;margin:0 0 4px;color:var(--petal)}
+.poem time{font-family:var(--mono);font-size:.65rem;letter-spacing:.14em;color:var(--dusk);text-transform:uppercase}
+.poem pre{font-family:var(--body);white-space:pre-wrap;font-size:1.12rem;line-height:1.85;margin:22px 0 0;font-weight:300}
+.poem.ar-poem{direction:rtl;text-align:right}
+.poem.ar-poem pre,.poem.ar-poem h3{font-family:var(--arabic);font-style:normal}
+.poem.ar-poem pre{font-size:1.3rem;line-height:2.1}
+.indent{padding-inline-start:3.5em;display:inline-block}
+
+/* candid strip */
+.candid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.ph{aspect-ratio:4/5;max-width:100%;border:1px dashed var(--line);border-radius:4px;display:flex;flex-direction:column;justify-content:flex-end;padding:16px;
+  background:radial-gradient(circle at 40% 30%,rgba(143,182,216,.18),transparent 60%),radial-gradient(circle at 70% 80%,rgba(233,166,196,.14),transparent 55%)}
+.ph:nth-child(2){transform:translateY(28px)}
+.ph b{font-family:var(--display);font-style:italic;font-weight:400;font-size:1.3rem}
+.ph small{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dusk)}
+
+/* essays & articles: list of entries */
+.entries{display:grid;gap:0}
+.entry{display:grid;grid-template-columns:120px minmax(0,1fr) auto;gap:24px;align-items:baseline;padding-block:26px;border-bottom:1px solid var(--line);text-decoration:none;transition:padding .4s}
+.entry:hover{padding-inline-start:12px}
+.entry:hover h3{color:var(--petal)}
+.entry time,.entry .tag{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dusk)}
+.entry h3{font-family:var(--display);font-weight:400;font-size:clamp(1.5rem,3vw,2.1rem);margin:0;line-height:1.15;transition:color .3s;text-wrap:balance}
+.entry p{margin:8px 0 0;color:var(--dusk);max-width:62ch}
+.entry .tag{color:var(--sky)}
+
+/* about */
+.about .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:56px}
+.about blockquote{font-family:var(--display);font-style:italic;font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.2;margin:0;color:var(--petal)}
+.about p{margin:0 0 18px;max-width:60ch}
+.links{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.links a{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border:1px solid var(--line);padding:10px 16px;border-radius:999px;transition:border-color .3s,color .3s}
+.links a:hover{border-color:var(--petal);color:var(--petal)}
+
+footer{padding-block:48px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dusk)}
+.note{color:var(--sky)}
+
+@media (max-width:760px){
+  .hero .wrap,.about .wrap{grid-template-columns:1fr}
+  .bloom{max-width:360px}
+  .poems{grid-template-columns:1fr}
+  .candid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ph:nth-child(2){transform:none}
+  .ph:nth-child(3){display:none}
+  .entry{grid-template-columns:1fr;gap:6px}
+}
+
+/* ---- added for the editable version ---- */
+.poem .verse{font-size:1.12rem;line-height:1.85;margin-top:22px}
+.poem .verse p,.piece.is-poem .text p{white-space:pre-line;margin:0 0 .35em}
+.poem.ar-poem .verse{font-family:var(--arabic);font-size:1.3rem;line-height:2.1}
+.poem h3 a{text-decoration:none}
+.ph{background-size:cover;background-position:center;position:relative;overflow:hidden}
+.ph.has-img::before{content:"";position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(15,11,16,.85))}
+.ph > *{position:relative}
+.piece{max-width:680px;margin:0 auto;padding-block:48px 96px}
+.piece .kicker{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dusk)}
+.piece h1{font-family:var(--display);font-weight:400;font-size:clamp(2.6rem,7vw,4.4rem);line-height:1;margin:14px 0 10px;text-wrap:balance}
+.piece .by{font-family:var(--hand);font-size:2rem;color:var(--petal)}
+.piece .by.hiba{font-family:var(--display);font-style:italic;font-size:1.2rem;color:var(--dusk)}
+.piece .text{margin-top:40px}
+.piece .text img{border-radius:4px;margin:1em 0}
+.piece.is-poem .text{font-size:1.2rem;line-height:1.9}
+.piece[lang="ar"]{direction:rtl;text-align:right}
+.piece[lang="ar"] .text,.piece[lang="ar"] h1{font-family:var(--arabic)}
+.back{display:inline-block;margin-top:56px;font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dusk);text-decoration:none}
+.back:hover{color:var(--petal)}
+.empty{color:var(--dusk);font-style:italic}

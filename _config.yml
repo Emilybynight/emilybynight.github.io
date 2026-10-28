@@ -1,0 +1,19 @@
+title: Emily by Night
+exclude: [README.md, .pages.yml]
+collections:
+  poems:
+    output: true
+    permalink: /poems/:name/
+  essays:
+    output: true
+    permalink: /essays/:name/
+  articles:
+    output: true
+    permalink: /articles/:name/
+defaults:
+  - scope: { type: poems }
+    values: { layout: piece, kind: poem }
+  - scope: { type: essays }
+    values: { layout: piece, kind: essay }
+  - scope: { type: articles }
+    values: { layout: piece, kind: article }

@@ -1,0 +1,12 @@
+---
+layout: default
+---
+{% assign isAr = false %}{% if page.language == "Arabic" %}{% assign isAr = true %}{% endif %}
+<article class="wrap"><div class="piece{% if page.kind == 'poem' %} is-poem{% endif %}"{% if isAr %} lang="ar"{% endif %}>
+  <span class="kicker">{{ page.kind }}{% if page.topic %} · {{ page.topic }}{% endif %} · {{ page.date | date: "%B %Y" }}</span>
+  <h1>{{ page.title }}</h1>
+  {% if page.kind == 'poem' %}<span class="by">Emily</span>{% else %}<span class="by hiba">by Hiba BenK</span>{% endif %}
+  {% if page.cover %}<img class="cover" src="{{ page.cover }}" alt="">{% endif %}
+  <div class="text">{{ content }}</div>
+  <a class="back" href="/#{{ page.kind }}s">← All {{ page.kind }}s</a>
+</div></article>
