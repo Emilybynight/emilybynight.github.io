@@ -8,6 +8,8 @@ poems_title: Poems
 poems_note: by Emily
 moments_title: Moments
 moments_note: candid, unposed
+moments:
+  - image: /assets/images/7de38e759cb6d78d60ecbae61f416fdb.jpg
 essays_title: Essays
 essays_note: by Hiba BenK · long reads
 articles_title: Articles
