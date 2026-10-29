@@ -334,7 +334,7 @@ body.room-poems{background-blend-mode:normal,normal,multiply;background-size:aut
 .letter-in time{color:#8a6a45}
 .letter-in .t{font-family:var(--old);font-style:italic;font-size:1.65rem;line-height:1.1;color:#2b1c12;text-wrap:balance}
 .letter-in[lang="ar"] .t,.envelope[lang="ar"] .t{font-family:var(--ar-display);font-style:normal}
-.letter-in .first{font-family:var(--quill);font-size:1.25rem;line-height:1.35;color:#4b3523;opacity:.85}
+.letter-in .first{font-family:var(--old);font-style:italic;font-size:1.05rem;line-height:1.45;color:#4b3523;opacity:.85}
 .letter-in .thumb{display:block;flex:1;min-height:0;overflow:hidden;border:5px solid #fffaf0;box-shadow:0 2px 5px rgba(0,0,0,.2);transform:rotate(-1.5deg)}
 .letter-in .thumb img{width:100%;height:100%;object-fit:cover;filter:sepia(.35)}
 .envelope:hover .letter-in,.envelope:focus-visible .letter-in{transform:translateY(-34px)}
@@ -350,7 +350,8 @@ body.room-poems{background-blend-mode:normal,normal,multiply;background-size:aut
 .room-poems .piece h1{font-family:var(--old);font-style:italic;color:#2b1c12}
 .room-poems .piece .kicker{color:#8a6a45}
 .room-poems .by.emily{font-family:var(--emily);color:var(--accent);text-shadow:none;font-size:2.6rem}
-.room-poems .is-poem .text{font-family:var(--quill);font-size:1.6rem;line-height:1.75;color:#2b1c12}
+.room-poems .is-poem .text{font-family:var(--old);font-size:1.32rem;line-height:1.9;color:#2b1c12;letter-spacing:.005em}
+.room-poems .is-poem .text em{font-style:italic}
 .room-poems .is-poem[lang="ar"] .text{font-family:var(--ar-display);font-size:1.55rem;line-height:2.1}
 .room-poems .is-poem .text p{margin:0 0 .25em}
 .room-poems .lines > *{animation:quill 1.4s cubic-bezier(.5,0,.3,1) both;animation-delay:calc(1s + var(--i,0) * 160ms)}
