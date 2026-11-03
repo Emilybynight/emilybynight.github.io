@@ -61,6 +61,32 @@ layout: default
     </a>
   {% else %}<p class="empty">{% include t.html en="The journal is still blank." ar="اليوميات ما زالت فارغة." %}</p>{% endfor %}
   </div>
+{% when "screen" %}
+  <div class="reels">
+  {% for r in items %}
+    <a class="reel rise" style="--i:{{ forloop.index0 }}" href="{{ r.url }}"{% if r.language == 'Arabic' %} dir="rtl" lang="ar"{% else %} dir="ltr"{% endif %}>
+      <span class="frame">{% if r.cover and r.cover != "" %}<img src="{{ r.cover }}" alt="" loading="lazy">{% else %}<span class="blank">{{ r.title }}</span>{% endif %}</span>
+      <span class="meta">{% if r.format %}{{ r.format }}{% endif %}{% if r.year %} · {{ r.year }}{% endif %}</span>
+      <span class="name">{{ r.title }}</span>
+      {% include stars.html n=r.rating %}
+      {% if r.verdict and r.verdict != "" %}<span class="verdict">{{ r.verdict }}</span>{% endif %}
+    </a>
+  {% else %}<p class="empty">{% include t.html en="The lights are down. The first review is coming." ar="الأضواء مطفأة. المراجعة الأولى قادمة." %}</p>{% endfor %}
+  </div>
+{% when "books" %}
+  <div class="shelf">
+  {% for b in items %}
+    {% assign cloth = forloop.index0 | modulo: 4 %}
+    <a class="book rise" style="--i:{{ forloop.index0 }}" href="{{ b.url }}"{% if b.language == 'Arabic' %} dir="rtl" lang="ar"{% else %} dir="ltr"{% endif %}>
+      <span class="cover cloth-{{ cloth }}">{% if b.cover and b.cover != "" %}<img src="{{ b.cover }}" alt="" loading="lazy">{% else %}<span class="gilt"><b>{{ b.title }}</b>{% if b.creator %}<i>{{ b.creator }}</i>{% endif %}</span>{% endif %}</span>
+      <span class="label">
+        <span class="name">{{ b.title }}</span>
+        {% if b.creator %}<span class="meta">{{ b.creator }}{% if b.year %} · {{ b.year }}{% endif %}</span>{% endif %}
+        {% include stars.html n=b.rating %}
+      </span>
+    </a>
+  {% else %}<p class="empty">{% include t.html en="The shelf is waiting for its first book." ar="الرف ينتظر كتابه الأول." %}</p>{% endfor %}
+  </div>
 {% else %}
   <div class="entries">
   {% for e in items %}

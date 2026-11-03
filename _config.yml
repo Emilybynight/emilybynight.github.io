@@ -13,6 +13,12 @@ collections:
   journal:
     output: true
     permalink: /journal/:name/
+  screen:
+    output: true
+    permalink: /screen/:name/
+  books:
+    output: true
+    permalink: /books/:name/
 defaults:
   - scope: { type: poems }
     values: { layout: piece, kind: poem }
@@ -22,3 +28,7 @@ defaults:
     values: { layout: piece, kind: article }
   - scope: { type: journal }
     values: { layout: entry, kind: entry }
+  - scope: { type: screen }
+    values: { layout: review, kind: review }
+  - scope: { type: books }
+    values: { layout: review, kind: review }

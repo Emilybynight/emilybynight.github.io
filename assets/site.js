@@ -42,6 +42,8 @@
     essays:   { dust: 46, dustCol: ['150,104,52', '120,80,40', '190,150,90'], rise: true, ink: true },
     articles: { sparkle: 60 },
     journal:  { butterflies: 2, wings: ['214,140,50', '240,186,100'], dust: 22, dustCol: ['214,150,60', '196,104,122'] },
+    screen:   { projector: true, beamDust: 70, scratches: true },
+    books:    { dust: 30, dustCol: ['255,200,120', '213,169,87', '240,220,180'], glyphs: 16 },
     contact:  { sparkle: 34, butterflies: 1, wings: ['196,88,126', '236,150,180'] }
   };
   var cfg = rooms[room] || rooms.home;
@@ -204,10 +206,79 @@
     ctx.fillStyle = g; ctx.beginPath(); ctx.arc(this.x, this.y, r, 0, Math.PI * 2); ctx.fill();
   };
 
+
+  /* cinema: a projector beam from above with dust floating in it */
+  function beamAt(y) { // half-width of the beam at height y
+    return W * 0.06 + (y / H) * W * 0.34;
+  }
+  function BeamDust(any) {
+    this.y = any ? rnd(0, H) : rnd(0, H);
+    var hw = beamAt(this.y);
+    this.x = W / 2 + rnd(-hw, hw) * 0.95;
+    this.r = rnd(0.5, 1.9); this.vx = rnd(-0.15, 0.15); this.vy = rnd(-0.08, 0.12); this.ph = rnd(0, 6); this.al = rnd(0.25, 0.75);
+  }
+  BeamDust.prototype.step = function () {
+    this.ph += 0.03; this.x += this.vx + Math.sin(this.ph) * 0.12; this.y += this.vy;
+    if (this.y < 0 || this.y > H || Math.abs(this.x - W / 2) > beamAt(this.y)) BeamDust.call(this, false);
+  };
+  BeamDust.prototype.draw = function () {
+    var edge = 1 - Math.abs(this.x - W / 2) / beamAt(this.y);
+    ctx.fillStyle = 'rgba(255,236,200,' + (this.al * (0.4 + 0.6 * edge) * (0.7 + 0.3 * Math.sin(this.ph * 2))) + ')';
+    ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2); ctx.fill();
+  };
+  function Beam() {}
+  Beam.prototype.step = function () {};
+  Beam.prototype.draw = function () {
+    var flick = 0.85 + 0.15 * Math.sin(t * 0.9) * Math.sin(t * 0.37) + (Math.random() < 0.03 ? -0.2 : 0);
+    var g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, 'rgba(255,226,170,' + 0.13 * flick + ')'); g.addColorStop(1, 'rgba(255,226,170,0)');
+    ctx.fillStyle = g; ctx.beginPath();
+    ctx.moveTo(W / 2 - W * 0.04, 0); ctx.lineTo(W / 2 + W * 0.04, 0);
+    ctx.lineTo(W / 2 + beamAt(H), H); ctx.lineTo(W / 2 - beamAt(H), H); ctx.closePath(); ctx.fill();
+  };
+  /* old film: scratches and specks that flash for a frame or two */
+  function Scratch() { this.life = 0; }
+  Scratch.prototype.step = function () {
+    if (this.life > 0) { this.life--; return; }
+    if (Math.random() < 0.035) { this.life = 2 + (Math.random() * 6 | 0); this.x = rnd(0, W); this.y0 = rnd(-50, H * 0.4); this.len = rnd(H * 0.2, H); this.w = rnd(0.6, 1.6); this.speck = Math.random() < 0.4; }
+  };
+  Scratch.prototype.draw = function () {
+    if (this.life <= 0) return;
+    if (this.speck) { ctx.fillStyle = 'rgba(240,230,214,.35)'; ctx.beginPath(); ctx.arc(this.x, this.y0 + this.len / 2, this.w * 2.2, 0, Math.PI * 2); ctx.fill(); return; }
+    ctx.strokeStyle = 'rgba(240,230,214,.22)'; ctx.lineWidth = this.w; ctx.beginPath();
+    ctx.moveTo(this.x, this.y0); ctx.lineTo(this.x + rnd(-2, 2), this.y0 + this.len); ctx.stroke();
+  };
+
+  /* library: letters (Latin and Arabic) drifting up through the lamplight */
+  var LETTERS = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz&';
+  var HUROOF = 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي';
+  function Glyph(any) {
+    this.ar = Math.random() < 0.4;
+    this.ch = this.ar ? pick(HUROOF.split('')) : pick(LETTERS.split(''));
+    this.x = rnd(0, W); this.y = any ? rnd(0, H) : H + 30;
+    this.size = rnd(14, 34); this.vy = -rnd(0.12, 0.35); this.sway = rnd(0, 6);
+    this.rot = rnd(-0.4, 0.4); this.spin = rnd(-0.003, 0.003); this.al = rnd(0.08, 0.22);
+  }
+  Glyph.prototype.step = function () {
+    this.sway += 0.008; this.y += this.vy; this.x += Math.sin(this.sway) * 0.25; this.rot += this.spin;
+    if (this.y < -40) Glyph.call(this, false);
+  };
+  Glyph.prototype.draw = function () {
+    var fade = Math.min(1, this.y / (H * 0.25));
+    ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.rot);
+    ctx.font = (this.ar ? '' : 'italic ') + this.size + 'px ' + (this.ar ? '"Amiri", serif' : '"IM Fell English", Georgia, serif');
+    ctx.fillStyle = 'rgba(232,196,120,' + this.al * fade + ')';
+    ctx.textAlign = 'center'; ctx.fillText(this.ch, 0, 0);
+    ctx.restore();
+  };
+
   function populate() {
     things = [];
     var area = (W * H) / (1280 * 800), i;
     var n = function (k) { return Math.max(4, Math.round(k * Math.min(area, 1.2))); };
+    if (cfg.projector) { things.push(new Beam()); for (i = 0; i < n(cfg.beamDust); i++) things.push(new BeamDust(true)); }
+    if (cfg.scratches) for (i = 0; i < 3; i++) things.push(new Scratch());
+    if (cfg.glyphs) for (i = 0; i < n(cfg.glyphs); i++) things.push(new Glyph(true));
     if (cfg.ink) for (i = 0; i < 4; i++) things.push(new Ink());
     if (cfg.dust) for (i = 0; i < n(cfg.dust); i++) things.push(new Dust(true));
     if (cfg.pages) for (i = 0; i < Math.max(5, Math.round(cfg.pages * Math.min(area, 1.2))); i++) things.push(new Page(true));

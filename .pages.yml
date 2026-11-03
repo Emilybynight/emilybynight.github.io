@@ -86,6 +86,72 @@ content:
       - { name: feeling, label: "Little tag (optional, e.g. loving lately, mood, found)", type: string }
       - { name: body, label: Your note, type: rich-text }
 
+  - name: screen
+    label: Films & Shows (reviews)
+    type: collection
+    path: _screen
+    filename: "{primary}.md"
+    view:
+      fields: [title, rating, date]
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: date, label: Date of your review, type: date, required: true }
+      - name: language
+        label: Language of your review
+        type: select
+        default: English
+        options:
+          values: [English, Arabic]
+      - { name: cover, label: "Poster (optional)", type: image }
+      - name: rating
+        label: Your rating (stars)
+        type: select
+        default: "4"
+        options:
+          values: ["1", "2", "3", "4", "5"]
+      - { name: creator, label: "Director (or creator for a series)", type: string }
+      - { name: year, label: Year it came out, type: string }
+      - name: format
+        label: Kind
+        type: select
+        options:
+          values: [Film, Series, Documentary, Animation, Short film]
+      - { name: verdict, label: "Your verdict in one line (shown big)", type: string }
+      - { name: body, label: Your review, type: rich-text }
+
+  - name: books
+    label: Books (reviews)
+    type: collection
+    path: _books
+    filename: "{primary}.md"
+    view:
+      fields: [title, rating, date]
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: date, label: Date of your review, type: date, required: true }
+      - name: language
+        label: Language of your review
+        type: select
+        default: English
+        options:
+          values: [English, Arabic]
+      - { name: cover, label: "Book cover (optional — empty gives a cloth-bound cover)", type: image }
+      - name: rating
+        label: Your rating (stars)
+        type: select
+        default: "4"
+        options:
+          values: ["1", "2", "3", "4", "5"]
+      - { name: creator, label: "Author", type: string }
+      - { name: year, label: Year it came out, type: string }
+      - name: format
+        label: Kind
+        type: select
+        options:
+          values: [Novel, Poetry, Essays, Non-fiction, Memoir, Short stories, Classic]
+      - { name: verdict, label: "Your verdict in one line (shown big)", type: string }
+      - { name: body, label: Your review, type: rich-text }
+
   - name: home
     label: Site texts, titles & pictures
     type: file
@@ -123,6 +189,16 @@ content:
       - { name: journal_note, label: Journal subtitle, type: string }
       - { name: journal_note_ar, label: Journal subtitle — Arabic, type: string }
       - { name: journal_image, label: "Journal door picture (empty = painted polaroid)", type: image }
+      - { name: screen_title, label: Films & Shows title, type: string }
+      - { name: screen_title_ar, label: Films & Shows title — Arabic, type: string }
+      - { name: screen_note, label: Films & Shows subtitle, type: string }
+      - { name: screen_note_ar, label: Films & Shows subtitle — Arabic, type: string }
+      - { name: screen_image, label: "Films & Shows door picture (empty = painted cinema)", type: image }
+      - { name: books_title, label: Books title, type: string }
+      - { name: books_title_ar, label: Books title — Arabic, type: string }
+      - { name: books_note, label: Books subtitle, type: string }
+      - { name: books_note_ar, label: Books subtitle — Arabic, type: string }
+      - { name: books_image, label: "Books door picture (empty = painted bookshelf)", type: image }
       - { name: about_quote, label: About quote, type: string }
       - { name: about_quote_ar, label: About quote — Arabic, type: string }
       - { name: about_text, label: About text, type: text }

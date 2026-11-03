@@ -1,0 +1,1 @@
+{% assign n = include.n | plus: 0 %}{% if n > 0 %}<span class="stars" aria-label="{{ n }} out of 5">{% for k in (1..5) %}{% if k <= n %}<b>★</b>{% else %}<i>★</i>{% endif %}{% endfor %}</span>{% endif %}

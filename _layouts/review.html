@@ -1,0 +1,32 @@
+---
+layout: default
+---
+{% assign isAr = false %}{% if page.language == "Arabic" %}{% assign isAr = true %}{% endif %}
+{% assign docs = site[page.collection] | sort: "date" | reverse %}
+{% assign i = 0 %}{% for d in docs %}{% if d.url == page.url %}{% assign i = forloop.index0 %}{% endif %}{% endfor %}
+{% assign ni = i | plus: 1 %}{% assign pi = i | minus: 1 %}
+{% assign older = docs[ni] %}{% if i > 0 %}{% assign newer = docs[pi] %}{% endif %}
+<article class="wrap review"{% if isAr %} lang="ar" dir="rtl"{% else %} lang="en" dir="ltr"{% endif %}>
+  <aside class="review-side">
+    <figure class="review-cover cloth-1">{% if page.cover and page.cover != "" %}<img src="{{ page.cover }}" alt="">{% else %}<span class="gilt"><b>{{ page.title }}</b>{% if page.creator %}<i>{{ page.creator }}</i>{% endif %}</span>{% endif %}</figure>
+    <dl class="facts">
+      {% if page.creator %}<div><dt>{% if page.collection == 'books' %}{% include t.html en="Author" ar="الكاتب" %}{% else %}{% include t.html en="Directed by" ar="إخراج" %}{% endif %}</dt><dd>{{ page.creator }}</dd></div>{% endif %}
+      {% if page.year %}<div><dt>{% include t.html en="Year" ar="السنة" %}</dt><dd>{{ page.year }}</dd></div>{% endif %}
+      {% if page.format %}<div><dt>{% include t.html en="Kind" ar="النوع" %}</dt><dd>{{ page.format }}</dd></div>{% endif %}
+      <div><dt>{% include t.html en="Reviewed" ar="تاريخ المراجعة" %}</dt><dd>{{ page.date | date: "%-d %B %Y" }}</dd></div>
+    </dl>
+  </aside>
+  <div class="review-body">
+    <span class="kicker">{% if page.collection == 'books' %}{% include t.html en="A book review" ar="مراجعة كتاب" %}{% else %}{% include t.html en="A screen review" ar="مراجعة فيلم أو مسلسل" %}{% endif %}</span>
+    <h1 class="title-motion">{{ page.title }}</h1>
+    {% include stars.html n=page.rating %}
+    {% if page.verdict and page.verdict != "" %}<p class="verdict-big">“{{ page.verdict }}”</p>{% endif %}
+    <div class="text lines">{{ content }}</div>
+    <span class="by hiba">Hiba BenK</span>
+    <nav class="pager" dir="auto">
+      {% if newer %}<a href="{{ newer.url }}"><small>{% include t.html en="Newer" ar="الأحدث" %}</small>{{ newer.title }}</a>{% else %}<span></span>{% endif %}
+      {% if older %}<a class="older" href="{{ older.url }}"><small>{% include t.html en="Older" ar="الأقدم" %}</small>{{ older.title }}</a>{% endif %}
+    </nav>
+    <a class="back" href="/{{ page.collection }}/">{% include t.html en="← All reviews" ar="→ كل المراجعات" %}</a>
+  </div>
+</article>

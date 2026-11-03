@@ -16,7 +16,7 @@ room: home
 
 <section class="rooms"><div class="wrap">
   <div class="doors">
-  {% assign keys = "poems,essays,articles,journal" | split: "," %}
+  {% assign keys = "poems,essays,articles,journal,screen,books" | split: "," %}
   {% for key in keys %}
     {% assign tkey = key | append: "_title" %}{% assign tkeyar = tkey | append: "_ar" %}
     {% assign nkey = key | append: "_note" %}{% assign nkeyar = nkey | append: "_ar" %}
