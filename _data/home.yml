@@ -1,62 +1,37 @@
 site_name: Emily by Night
 headline_night: Emily
+headline_night_ar: إيميلي
 headline_end: by night.
+headline_end_ar: ليلاً.
 intro: "Emily's untolds "
+intro_ar: ما لم تقله إيميلي
 arabic_line: أكتبُ كي يتنفّسَ الضوء
 hero_image: /assets/images/download (7).png
 poems_title: Poems
-poems_note: by Emily
-essays_title: Essays
-essays_note: by Hiba BenK · long reads
-articles_title: Articles
-articles_note: by Hiba BenK · analysis & commentary
-about_quote: By day I write the brief. By night, Emily writes the poem.
-about_text: >-
-  I'm Hiba BenK, a writer from Morocco. My work moves between global affairs and
-  the intimate: how culture, identity and power travel through institutions, and
-  through the women who carry them.
-
-
-  Emily is the part of me that only speaks in poems. This is our shared home: a
-  night garden of poems, essays and articles that we keep tending.
-substack_url: https://substack.com
-footer: © 2026 Hiba BenK & Emily
-
-# ---- Arabic versions & new pages ----
-headline_day_ar: ""
-headline_night_ar: إيميلي
-headline_end_ar: ليلاً.
-intro_ar: ما لم تقله إيميلي
 poems_title_ar: قصائد
+poems_note: by Emily
 poems_note_ar: بقلم إيميلي
 poems_image: /assets/images/lily.jpg
+essays_title: Essays
 essays_title_ar: نصوص
+essays_note: by Hiba BenK · long reads
 essays_note_ar: بقلم هبة · قراءات طويلة
+articles_title: Articles
 articles_title_ar: تحليلات
+articles_note: by Hiba BenK · analysis & commentary
 articles_note_ar: بقلم هبة · تحليل وتعليق
-articles_image: /assets/images/467e4befd9c92ef16a739d804f31aa12.jpg
+articles_image: /assets/images/bc86db1c7828222b9cabf350cde2f4f4.jpg
 journal_title: Journal
 journal_title_ar: يوميات
 journal_note: pictures, things I love, little notes
 journal_note_ar: صور، أشياء أحبها، وملاحظات صغيرة
-about_quote_ar: في النهار أكتب التقرير، وفي الليل تكتب إيميلي القصيدة.
-about_text_ar: |-
-  أنا هبة، كاتبة من المغرب. أكتب بين الشؤون الدولية والحميمي: كيف تنتقل الثقافة والهوية والسلطة عبر المؤسسات، وعبر النساء اللواتي يحملنها.
-
-  إيميلي هي الجزء مني الذي لا يتكلم إلا شعراً. هذا بيتنا المشترك.
+about_quote: If in doubt , pursue yourself , therefore I am in pursuit of myself ...
 contact_title: Contact & Links
 contact_title_ar: تواصل وروابط
 contact_text: For collaborations, invitations, or just to say hello.
 contact_text_ar: للتعاون أو الدعوات، أو فقط لإلقاء التحية.
-email: ""
 links:
   - label: Newsletter on Substack
     url: https://substack.com
-screen_title: Films & Shows
-screen_title_ar: أفلام ومسلسلات
-screen_note: what I watched, and what stayed with me
-screen_note_ar: ما شاهدته، وما بقي معي
-books_title: Books
-books_title_ar: كتب
-books_note: what I read, and what it did to me
-books_note_ar: ما قرأته، وما فعله بي
+substack_url: https://substack.com
+footer: © 2026 Hiba BenK & Emily
