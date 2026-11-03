@@ -3,8 +3,9 @@ headline_night: Emily
 headline_night_ar: إيميلي
 headline_end: by night.
 headline_end_ar: ليلاً.
-intro: "Emily's untolds "
-intro_ar: ما لم تقله إيميلي
+intro: |-
+  Emily's untolds 
+  A guide to life for me, for when in need 
 arabic_line: شجاعة ا ن اكون نفسي
 hero_image: /assets/images/download (7).png
 poems_title: Poems
