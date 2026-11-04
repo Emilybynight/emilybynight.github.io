@@ -21,7 +21,7 @@ room: home
     {% assign tkey = key | append: "_title" %}{% assign tkeyar = tkey | append: "_ar" %}
     {% assign nkey = key | append: "_note" %}{% assign nkeyar = nkey | append: "_ar" %}
     {% assign ikey = key | append: "_image" %}
-    {% assign te = h[tkey] %}{% assign ta = h[tkeyar] %}{% assign ne = h[nkey] %}{% assign na = h[nkeyar] %}
+    {% assign te = h[tkey] | default: key | capitalize %}{% assign ta = h[tkeyar] %}{% assign ne = h[nkey] %}{% assign na = h[nkeyar] %}
     <a class="door rise" style="--i:{{ forloop.index | plus: 2 }}" href="/{{ key }}/">
       <div class="arch art-{{ key }}" style="view-transition-name: door-{{ key }}">
         {% if h[ikey] and h[ikey] != "" %}<img src="{{ h[ikey] }}" alt="" loading="lazy">{% endif %}

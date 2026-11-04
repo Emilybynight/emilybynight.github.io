@@ -354,7 +354,7 @@ body.room-poems{background-blend-mode:normal,normal,multiply;background-size:aut
 .room-poems .by.emily{font-family:var(--emily);color:var(--accent);text-shadow:none;font-size:2.6rem}
 .room-poems .is-poem .text{font-family:var(--old);font-size:1.32rem;line-height:1.9;color:#2b1c12;letter-spacing:.005em}
 .room-poems .is-poem .text em{font-style:italic}
-.room-poems .is-poem[lang="ar"] .text{font-family:var(--ar-display);font-size:1.55rem;line-height:2.1}
+.room-poems .is-poem[lang="ar"] .text{font-family:var(--arabic);font-size:1.5rem;line-height:2.25;word-spacing:.06em;color:#2a1a10}
 .room-poems .is-poem .text p{margin:0 0 .25em}
 .room-poems .lines > *{animation:quill 1.4s cubic-bezier(.5,0,.3,1) both;animation-delay:calc(1s + var(--i,0) * 160ms)}
 @keyframes quill{from{clip-path:inset(0 100% 0 0);opacity:.2}to{clip-path:inset(0 0 0 0);opacity:1}}
