@@ -23,7 +23,7 @@ This quieter, smaller, less version of myself
 
 Shes looking at me as shes driven away
 
-Hoping that ill do smthg to meet her back
+Hoping that ill do smthg to meet her back halfway
 
 To integrate her back 
 
@@ -31,7 +31,7 @@ I can still feel her shadow
 
 I can still feel her light presence
 
-I can sense her when I say smthg that seems ofd to me
+I can sense her when I say smthg that seems odd to me
 
 When I do nothing to stand up for myself
 
